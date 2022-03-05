@@ -1,4 +1,4 @@
-package com.liberty.poker.planningsession;
+package com.liberty.poker.linksession;
 
 
 import lombok.AccessLevel;
@@ -14,22 +14,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static com.liberty.poker.planningsession.PlanningSession.DeckType;
-
-@Entity(name = "PLANNING_SESSION")
+@Entity(name = "LINK_SESSION")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")
 @Getter
-public class PlanningSessionEntity {
-
+public class LinkSessionEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -39,14 +35,13 @@ public class PlanningSessionEntity {
     @Column(name = "VERSION")
     private Long version;
 
-    @Column(name = "TITLE")
+    @Column(name = "LINK")
     @NonNull
-    private String title;
+    private String link;
 
-    @Enumerated
-    @Column(name = "DECK_TYPE")
+    @Column(name = "PLANNING_SESSION_ID")
     @NonNull
-    private DeckType deckType;
+    private UUID planningSessionId;
 
     @CreatedDate
     @Column(name = "CREATED_DATE")
