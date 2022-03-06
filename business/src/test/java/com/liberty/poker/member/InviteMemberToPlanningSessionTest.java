@@ -56,7 +56,7 @@ class InviteMemberToPlanningSessionTest {
         when(planningSessionRepository.findById(eq(planningSessionId)))
                 .thenReturn(Optional.of(new PlanningSession(planningSessionId, "Liberty P Session", DeckType.FIBONACCI)));
 
-        when(memberRepository.findMembersBy(eq(planningSessionId)))
+        when(memberRepository.findByPlanningSessionId(eq(planningSessionId)))
                 .thenReturn(List.of(newMember, member2, member3));
 
         final var planningPokerRoomSessionDTO = subject.execute(newMember);

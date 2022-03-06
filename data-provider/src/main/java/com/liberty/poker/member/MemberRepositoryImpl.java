@@ -37,7 +37,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<Member> findMembersBy(final UUID planningSessionId) {
+    public List<Member> findByPlanningSessionId(final UUID planningSessionId) {
         return memberRepositoryEntity.findMembersByPlanningSessionId(planningSessionId);
     }
 

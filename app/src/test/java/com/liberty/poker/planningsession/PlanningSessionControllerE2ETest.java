@@ -1,21 +1,14 @@
 package com.liberty.poker.planningsession;
 
 import com.google.common.io.Resources;
+import com.liberty.poker.AbstractE2ETest;
 import com.liberty.poker.linksession.LinkSession;
-import com.liberty.poker.linksession.LinkSessionRepository;
 import com.liberty.poker.member.Member;
-import com.liberty.poker.member.MemberRepository;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,27 +18,7 @@ import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-//TODO we can put this configuration in a abstract E2E class - AbstractE2ETest
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PlanningSessionControllerE2ETest {
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    private PlanningSessionRepository planningSessionRepository;
-
-    @Autowired
-    private LinkSessionRepository linkSessionRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @BeforeEach
-    void setUp() {
-        RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
-    }
+class PlanningSessionControllerE2ETest extends AbstractE2ETest {
 
     @Test
     void shouldReturnCode201WhenPlanningSessionIsCreated() throws IOException {
@@ -83,20 +56,6 @@ class PlanningSessionControllerE2ETest {
     @Test
     void shouldReturnError400WhenDeckTypeNotExists() {
 
-    }
-
-    @Test
-    void shouldEnterInPlanningPokerSessionWhenLinkSessionWasGeneratedAndExists() throws IOException {
-        final var planningSession = planningSessionRepository
-                .save(new PlanningSession("Liberty Planning Poker Session", FIBONACCI));
-        final var memberPostMsg = createMemberAsJsonMsg("Andre Lucas");
-
-        RestAssuredMockMvc.given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(memberPostMsg)
-                .post("/planning-session/room/".concat(planningSession.getId().toString()))
-                .then()
-                .status(HttpStatus.CREATED);
     }
 
     @Test
@@ -146,11 +105,5 @@ class PlanningSessionControllerE2ETest {
                         StandardCharsets.UTF_8)
                 .replace("{title}", title)
                 .replace("{deckType}", deckType);
-    }
-
-    private String createMemberAsJsonMsg(final String nickName) throws IOException {
-        return Resources.toString(Resources.getResource("member-join-post.json"),
-                        StandardCharsets.UTF_8)
-                .replace("{nickName}", nickName);
     }
 }

@@ -11,6 +11,8 @@ public interface UserStoryRepository {
     void deleteById(UUID id);
     void deleteByPlanningSessionId(UUID planningSessionId);
 
+    List<UserStory> findByPlanningSessionId(UUID planningSessionId);
+
     @VisibleForTesting
     void deleteAll();
 }

@@ -49,6 +49,15 @@ public class UserStoryImpl implements UserStoryRepository{
     }
 
     @Override
+    public List<UserStory> findByPlanningSessionId(final UUID planningSessionId) {
+//        return findAll().stream().filter(userStory -> userStory.getPlanningSessionId().equals(planningSessionId)).collect(Collectors.toList());
+
+        return userRepositoryEntity.findByPlanningSessionId(planningSessionId).stream()
+                .map(userStoryEntity -> conversionService.convert(userStoryEntity, UserStory.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @VisibleForTesting
     public void deleteAll() {
         userRepositoryEntity.deleteAll();

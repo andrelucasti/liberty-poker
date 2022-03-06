@@ -22,16 +22,13 @@ public class PlanningSessionController {
 
     private final ConversionService converter;
     private final CreatePlanningPokerSession createPlanningPokerSession;
-    private final InviteMemberToPlanningSession inviteMemberToPlanningSession;
     private final DestroyPlanningPokerSession destroyPlanningPokerSession;
 
     public PlanningSessionController(final ConversionService converter,
                                      final CreatePlanningPokerSession createPlanningPokerSession,
-                                     final InviteMemberToPlanningSession inviteMemberToPlanningSession,
                                      final DestroyPlanningPokerSession destroyPlanningPokerSession) {
         this.converter = converter;
         this.createPlanningPokerSession = createPlanningPokerSession;
-        this.inviteMemberToPlanningSession = inviteMemberToPlanningSession;
         this.destroyPlanningPokerSession = destroyPlanningPokerSession;
     }
 
@@ -45,19 +42,6 @@ public class PlanningSessionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(converter.convert(planningPokerSessionDTO, PlanningSessionResponse.class));
     }
 
-    @PostMapping("/room/{planningSessionId}")
-    //TODO change to new Controller and create new test when the room not exist anymore
-    public ResponseEntity<PlanningPokerRoomSessionResponse> joinToRoom(@PathVariable final UUID planningSessionId,
-                                                     @RequestBody final MemberRequest memberRequest) throws PlanningSessionNotFoundException {
-
-        final var member = converter.convert(new MemberRequest.MemberRequestWrapper(memberRequest, planningSessionId),
-                Member.class);
-
-        //TODO create ExceptionControllerAdvice
-        final var planningPokerRoomSessionDTO = inviteMemberToPlanningSession.execute(member);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(converter.convert(planningPokerRoomSessionDTO, PlanningPokerRoomSessionResponse.class));
-    }
     @DeleteMapping("/{planningSessionId}")
     public ResponseEntity<HttpStatus> destroy(@PathVariable final UUID planningSessionId){
 
