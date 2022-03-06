@@ -1,7 +1,7 @@
 package com.liberty.poker.planningsession;
 
 
-import com.liberty.poker.member.JoinMember;
+import com.liberty.poker.member.InviteMemberToPlanningSession;
 import com.liberty.poker.member.MemberRequest;
 import com.liberty.poker.member.Member;
 import org.springframework.core.convert.ConversionService;
@@ -22,16 +22,16 @@ public class PlanningSessionController {
 
     private final ConversionService converter;
     private final CreatePlanningPokerSession createPlanningPokerSession;
-    private final JoinMember joinMember;
+    private final InviteMemberToPlanningSession inviteMemberToPlanningSession;
     private final DestroyPlanningPokerSession destroyPlanningPokerSession;
 
     public PlanningSessionController(final ConversionService converter,
                                      final CreatePlanningPokerSession createPlanningPokerSession,
-                                     final JoinMember joinMember,
+                                     final InviteMemberToPlanningSession inviteMemberToPlanningSession,
                                      final DestroyPlanningPokerSession destroyPlanningPokerSession) {
         this.converter = converter;
         this.createPlanningPokerSession = createPlanningPokerSession;
-        this.joinMember = joinMember;
+        this.inviteMemberToPlanningSession = inviteMemberToPlanningSession;
         this.destroyPlanningPokerSession = destroyPlanningPokerSession;
     }
 
@@ -54,7 +54,7 @@ public class PlanningSessionController {
                 Member.class);
 
         //TODO create ExceptionControllerAdvice
-        final var planningPokerRoomSessionDTO = joinMember.execute(member);
+        final var planningPokerRoomSessionDTO = inviteMemberToPlanningSession.execute(member);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(converter.convert(planningPokerRoomSessionDTO, PlanningPokerRoomSessionResponse.class));
     }

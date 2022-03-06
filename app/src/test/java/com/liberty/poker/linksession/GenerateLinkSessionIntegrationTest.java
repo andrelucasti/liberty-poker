@@ -13,7 +13,7 @@ class GenerateLinkSessionIntegrationTest extends AbstractIntegrationTests {
 
     @Test
     void shouldSaveLinkSession() {
-        final PlanningSession planningSession = createPlanningPokerSession();
+        final PlanningSession planningSession = createPlanningSession();
 
         final var linkSessionExpected = new LinkSession(planningSession.getId());
 

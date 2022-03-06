@@ -52,4 +52,9 @@ public class PlanningSessionRepositoryImpl implements PlanningSessionRepository 
     public void deleteById(final UUID id) {
         planningSessionEntityRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteAll() {
+        planningSessionEntityRepository.deleteAll();
+    }
 }

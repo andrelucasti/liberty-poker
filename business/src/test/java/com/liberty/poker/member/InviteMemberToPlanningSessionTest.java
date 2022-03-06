@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -19,8 +18,8 @@ import static com.liberty.poker.planningsession.PlanningSession.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class JoinMemberTest {
-    private JoinMember subject;
+class InviteMemberToPlanningSessionTest {
+    private InviteMemberToPlanningSession subject;
 
     @Mock
     private MemberRepository memberRepository;
@@ -30,7 +29,7 @@ class JoinMemberTest {
 
     @BeforeEach
     void setUp() {
-        subject = new JoinMember(new CreateMember(memberRepository), memberRepository, planningSessionRepository);
+        subject = new InviteMemberToPlanningSession(new CreateMember(memberRepository), memberRepository, planningSessionRepository);
     }
 
     @Test

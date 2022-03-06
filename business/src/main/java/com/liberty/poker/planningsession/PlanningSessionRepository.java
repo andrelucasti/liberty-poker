@@ -10,4 +10,6 @@ public interface PlanningSessionRepository {
     PlanningSession findMandatoryById(UUID id);
     List<PlanningSession> findAll();
     void deleteById(UUID id);
+
+    void deleteAll();
 }

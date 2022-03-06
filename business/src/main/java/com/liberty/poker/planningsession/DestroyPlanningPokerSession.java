@@ -2,6 +2,7 @@ package com.liberty.poker.planningsession;
 
 import com.liberty.poker.linksession.DestroyLinkSessionFromPlanningSession;
 import com.liberty.poker.member.RemoveMembersFromPlanningSession;
+import com.liberty.poker.userstory.RemoveUserStoryFromPlanningSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,14 +11,16 @@ import java.util.UUID;
 @Service
 public class DestroyPlanningPokerSession {
 
+    private RemoveUserStoryFromPlanningSession removeUserStoryFromPlanningSession;
     private final RemoveMembersFromPlanningSession removeMembersFromPlanningSession;
     private final DestroyLinkSessionFromPlanningSession destroyLinkSessionFromPlanningSession;
     private final PlanningSessionRepository planningSessionRepository;
 
-    public DestroyPlanningPokerSession(final RemoveMembersFromPlanningSession removeMembersFromPlanningSession,
+    public DestroyPlanningPokerSession(final RemoveUserStoryFromPlanningSession removeUserStoryFromPlanningSession,
+                                       final RemoveMembersFromPlanningSession removeMembersFromPlanningSession,
                                        final DestroyLinkSessionFromPlanningSession destroyLinkSessionFromPlanningSession,
                                        final PlanningSessionRepository planningSessionRepository) {
-
+        this.removeUserStoryFromPlanningSession = removeUserStoryFromPlanningSession;
         this.removeMembersFromPlanningSession = removeMembersFromPlanningSession;
         this.destroyLinkSessionFromPlanningSession = destroyLinkSessionFromPlanningSession;
         this.planningSessionRepository = planningSessionRepository;
@@ -25,6 +28,7 @@ public class DestroyPlanningPokerSession {
 
     @Transactional
     public void execute(final UUID planningSessionId) {
+        removeUserStoryFromPlanningSession.execute(planningSessionId);
         removeMembersFromPlanningSession.execute(planningSessionId);
         destroyLinkSessionFromPlanningSession.execute(planningSessionId);
         planningSessionRepository.deleteById(planningSessionId);

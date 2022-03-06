@@ -15,7 +15,7 @@ class CreateMemberIntegrationTest extends AbstractIntegrationTests {
 
     @Test
     void shouldSaveMember() {
-        final var planningPokerSession = createPlanningPokerSession();
+        final var planningPokerSession = createPlanningSession();
         final var memberExpected = new Member("Andre Lucas", planningPokerSession.getId());
 
         subject.execute(memberExpected);

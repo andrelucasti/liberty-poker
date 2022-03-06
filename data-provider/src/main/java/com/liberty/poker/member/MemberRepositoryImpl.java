@@ -46,4 +46,9 @@ public class MemberRepositoryImpl implements MemberRepository {
     public void deleteMemberBy(final UUID planningSessionId) {
         memberRepositoryEntity.deleteByPlanningSessionId(planningSessionId);
     }
+
+    @Override
+    public void deleteAll() {
+        memberRepositoryEntity.deleteAll();
+    }
 }

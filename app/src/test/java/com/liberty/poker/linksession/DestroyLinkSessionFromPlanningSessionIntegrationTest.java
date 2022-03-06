@@ -12,7 +12,7 @@ class DestroyLinkSessionFromPlanningSessionIntegrationTest extends AbstractInteg
 
     @Test
     void shouldDestroyLinkFromPlanningSession() {
-        final var planningPokerSession = createPlanningPokerSession();
+        final var planningPokerSession = createPlanningSession();
         createLinkSession(planningPokerSession);
 
         subject.execute(planningPokerSession.getId());

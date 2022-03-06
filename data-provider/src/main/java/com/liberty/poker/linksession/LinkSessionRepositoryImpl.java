@@ -40,4 +40,9 @@ public class LinkSessionRepositoryImpl implements LinkSessionRepository {
     public void deleteBy(final UUID planningSessionId) {
         linkSessionEntityRepository.deleteByPlanningSessionId(planningSessionId);
     }
+
+    @Override
+    public void deleteAll() {
+        linkSessionEntityRepository.deleteAll();
+    }
 }

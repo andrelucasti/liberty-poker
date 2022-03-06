@@ -12,7 +12,7 @@ class RemoveMembersFromPlanningSessionIntegrationTest extends AbstractIntegratio
 
     @Test
     void shouldRemoveMembersFromThePlanningSession() {
-        final var planningPokerSession = createPlanningPokerSession();
+        final var planningPokerSession = createPlanningSession();
         final var planningPokerSessionId = planningPokerSession.getId();
 
         memberRepository.save(new Member("Andre Lucas", planningPokerSessionId));
@@ -28,8 +28,8 @@ class RemoveMembersFromPlanningSessionIntegrationTest extends AbstractIntegratio
 
     @Test
     void shouldRemoveMembersJustFromTheSamePlanningSession() {
-        final var planningPokerSession1 = createPlanningPokerSession();
-        final var planningPokerSession2 = createPlanningPokerSession();
+        final var planningPokerSession1 = createPlanningSession();
+        final var planningPokerSession2 = createPlanningSession();
 
         final var sessionId1 = planningPokerSession1.getId();
         final var sessionId2 = planningPokerSession2.getId();
