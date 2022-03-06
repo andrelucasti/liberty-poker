@@ -16,10 +16,12 @@ public class CreatePlanningPokerSession {
     }
 
     //TODO improve transactions "@Transaction"
-    public void execute(final PlanningSession planningSession) {
+    public PlanningPokerSessionDTO execute(final PlanningSession planningSession) {
         final var newPlanningSession = planningSessionRepository.save(planningSession);
 
         final var linkSession = new LinkSession(newPlanningSession.getId());
-        generateLinkSession.execute(linkSession);
+        final var newLinkSession = generateLinkSession.execute(linkSession);
+
+        return new PlanningPokerSessionDTO(newPlanningSession, newLinkSession);
     }
 }

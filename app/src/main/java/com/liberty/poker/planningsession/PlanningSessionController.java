@@ -12,11 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/planning-session")
 public class PlanningSessionController {
 
+    private final CreatePlanningPokerSession createPlanningPokerSession;
+    private final PlanningSessionRequestToPlanningSessionConverter requestToModel;
+    private final PlanningPokerSessionDTOToPlanningSessionResponseConverter dtoToResponse;
+
+    public PlanningSessionController(final CreatePlanningPokerSession createPlanningPokerSession,
+                                     final PlanningSessionRequestToPlanningSessionConverter requestToModel,
+                                     final PlanningPokerSessionDTOToPlanningSessionResponseConverter dtoToResponse) {
+        this.createPlanningPokerSession = createPlanningPokerSession;
+        this.requestToModel = requestToModel;
+        this.dtoToResponse = dtoToResponse;
+    }
+
     @PostMapping
-    public ResponseEntity<PlanningSessionRequest> create(@RequestBody final PlanningSessionRequest planningSessionRequest){
+    public ResponseEntity<PlanningSessionResponse> create(@RequestBody final PlanningSessionRequest planningSessionRequest){
 
-        System.out.println(planningSessionRequest.toString());
+        final var planningPokerSessionDTO =
+                createPlanningPokerSession.execute(requestToModel.converter(planningSessionRequest));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(planningSessionRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoToResponse.converter(planningPokerSessionDTO));
     }
 }

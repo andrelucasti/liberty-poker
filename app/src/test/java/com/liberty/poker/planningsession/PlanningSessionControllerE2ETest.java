@@ -1,32 +1,29 @@
 package com.liberty.poker.planningsession;
 
 import com.google.common.io.Resources;
-import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
 
 //TODO we can put this configuration in a abstract E2E class - AbstractE2ETest
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PlanningSessionControllerE2ETest {
-
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -37,18 +34,34 @@ class PlanningSessionControllerE2ETest {
 
     @Test
     void shouldReturnCode201WhenPlanningSessionIsCreated() throws IOException {
-        final var planningPokerPostMsg = createPlanningSessionAsJsonMsg("Liberty Planning Session", "FIBONACCI");
+        final var planningPokerPostMsg
+                = createPlanningSessionAsJsonMsg("Liberty Planning Session", "FIBONACCI");
+
         RestAssuredMockMvc.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(planningPokerPostMsg)
-                .post("planning-session")
+                .post("/planning-session")
                 .then()
                 .status(HttpStatus.CREATED);
-
     }
 
     @Test
-    void shouldReturnPlanningAndLinkSessionWhenPlanningSessionIsCreated() {
+    void shouldReturnPlanningSessionResponseWhenPlanningSessionIsCreated() throws IOException {
+        final var planningSessionTitle = "Liberty Planning Session";
+        final var deckType = "FIBONACCI";
+        final var planningPokerPostMsg
+                = createPlanningSessionAsJsonMsg(planningSessionTitle, deckType);
+
+        RestAssuredMockMvc.given()
+                .contentType(ContentType.JSON)
+                .body(planningPokerPostMsg)
+                .post("/planning-session")
+                .then()
+                .status(HttpStatus.CREATED)
+                .body("id", any(String.class))
+                .body("title", equalTo(planningSessionTitle))
+                .body("deckType", equalTo(deckType))
+                .body("link", containsString("room/"));
 
     }
 

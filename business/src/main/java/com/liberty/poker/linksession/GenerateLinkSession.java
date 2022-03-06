@@ -10,7 +10,7 @@ public class GenerateLinkSession {
         this.linkSessionRepository = linkSessionRepository;
     }
 
-    public void execute(final LinkSession linkSession){
-        linkSessionRepository.save(linkSession);
+    public LinkSession execute(final LinkSession linkSession){
+        return linkSessionRepository.save(linkSession);
     }
 }

@@ -20,8 +20,9 @@ public class LinkSessionRepositoryImpl implements LinkSessionRepository {
     }
 
     @Override
-    public void save(final LinkSession linkSession) {
-        linkSessionEntityRepository.save(modelToEntity.converter(linkSession));
+    public LinkSession save(final LinkSession linkSession) {
+        final var linkSessionEntity = modelToEntity.converter(linkSession);
+        return entityToModel.converter(linkSessionEntityRepository.save(linkSessionEntity));
     }
 
     @Override
