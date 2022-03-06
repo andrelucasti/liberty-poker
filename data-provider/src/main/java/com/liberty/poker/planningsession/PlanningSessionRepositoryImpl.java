@@ -47,4 +47,9 @@ public class PlanningSessionRepositoryImpl implements PlanningSessionRepository 
                 .map(entityToModel::converter)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteById(final UUID id) {
+        planningSessionEntityRepository.deleteById(id);
+    }
 }

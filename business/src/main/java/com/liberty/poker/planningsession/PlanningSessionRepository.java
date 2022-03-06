@@ -8,7 +8,6 @@ public interface PlanningSessionRepository {
     PlanningSession save(PlanningSession planningSession);
     Optional<PlanningSession> findById(UUID id);
     PlanningSession findMandatoryById(UUID id);
-
     List<PlanningSession> findAll();
-
+    void deleteById(UUID id);
 }

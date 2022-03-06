@@ -1,8 +1,10 @@
 package com.liberty.poker.linksession;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -31,5 +33,11 @@ public class LinkSessionRepositoryImpl implements LinkSessionRepository {
                 .stream()
                 .map(entityToModel::converter)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteBy(final UUID planningSessionId) {
+        linkSessionEntityRepository.deleteByPlanningSessionId(planningSessionId);
     }
 }

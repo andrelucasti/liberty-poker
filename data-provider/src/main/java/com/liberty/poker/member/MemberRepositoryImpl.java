@@ -2,6 +2,7 @@ package com.liberty.poker.member;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -38,5 +39,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public List<Member> findMembersBy(final UUID planningSessionId) {
         return memberRepositoryEntity.findMembersByPlanningSessionId(planningSessionId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMemberBy(final UUID planningSessionId) {
+        memberRepositoryEntity.deleteByPlanningSessionId(planningSessionId);
     }
 }

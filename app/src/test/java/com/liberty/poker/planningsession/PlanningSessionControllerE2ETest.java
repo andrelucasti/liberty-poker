@@ -1,9 +1,12 @@
 package com.liberty.poker.planningsession;
 
 import com.google.common.io.Resources;
+import com.liberty.poker.linksession.LinkSession;
+import com.liberty.poker.linksession.LinkSessionRepository;
+import com.liberty.poker.member.Member;
+import com.liberty.poker.member.MemberRepository;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,20 +19,28 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 import static com.liberty.poker.planningsession.PlanningSession.DeckType.FIBONACCI;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.any;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 //TODO we can put this configuration in a abstract E2E class - AbstractE2ETest
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PlanningSessionControllerE2ETest {
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Autowired
     private PlanningSessionRepository planningSessionRepository;
+
+    @Autowired
+    private LinkSessionRepository linkSessionRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @BeforeEach
     void setUp() {
@@ -86,6 +97,48 @@ class PlanningSessionControllerE2ETest {
                 .post("/planning-session/room/".concat(planningSession.getId().toString()))
                 .then()
                 .status(HttpStatus.CREATED);
+    }
+
+    @Test
+    void shouldReturnHttpCode204WhenPlanningPokerIsDestroyed() {
+        final var planningSession = planningSessionRepository
+                .save(new PlanningSession("Liberty Planning Poker Session", FIBONACCI));
+
+        RestAssuredMockMvc.given()
+                .contentType(ContentType.JSON)
+                .delete("/planning-session/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    void shouldReturnHttpCode204WhenPlanningPokerIsDestroyedWithLink() {
+        final var planningSession = planningSessionRepository
+                .save(new PlanningSession("Liberty Planning Poker Session", FIBONACCI));
+
+        linkSessionRepository.save(new LinkSession(planningSession.getId()));
+
+        RestAssuredMockMvc.given()
+                .contentType(ContentType.JSON)
+                .delete("/planning-session/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    void shouldReturnHttpCode204WhenPlanningPokerIsDestroyedWithAllMembers() {
+        final var planningSession = planningSessionRepository
+                .save(new PlanningSession("Liberty Planning Poker Session", FIBONACCI));
+
+        memberRepository.save(new Member("Andre Lucas", planningSession.getId()));
+        memberRepository.save(new Member("Alexandre Lima", planningSession.getId()));
+        memberRepository.save(new Member("Karol Marques", planningSession.getId()));
+
+        RestAssuredMockMvc.given()
+                .contentType(ContentType.JSON)
+                .delete("/planning-session/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.NO_CONTENT);
     }
 
     private String createPlanningSessionAsJsonMsg(final String title, final String deckType) throws IOException {

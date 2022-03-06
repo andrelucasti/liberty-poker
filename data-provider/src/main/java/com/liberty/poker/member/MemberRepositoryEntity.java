@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface MemberRepositoryEntity extends JpaRepository<MemberEntity, UUID> {
     List<Member> findMembersByPlanningSessionId(UUID planningSessionId);
-
+    void deleteByPlanningSessionId(UUID planningSessionId);
 }
