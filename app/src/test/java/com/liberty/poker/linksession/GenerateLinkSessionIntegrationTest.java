@@ -1,28 +1,19 @@
 package com.liberty.poker.linksession;
 
+import com.liberty.poker.AbstractIntegrationTests;
 import com.liberty.poker.planningsession.PlanningSession;
-import com.liberty.poker.planningsession.PlanningSessionRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class GenerateLinkSessionIntegrationTest {
+class GenerateLinkSessionIntegrationTest extends AbstractIntegrationTests {
 
     @Autowired
     private GenerateLinkSession subject;
 
-    @Autowired
-    private LinkSessionRepository linkSessionRepository;
-
-    @Autowired
-    private PlanningSessionRepository planningSessionRepository;
-
     @Test
     void shouldSaveLinkSession() {
-        final var planningSession = planningSessionRepository.save(
-                new PlanningSession("LibertyPlanningPokerSession", PlanningSession.DeckType.FIBONACCI));
+        final PlanningSession planningSession = createPlanningPokerSession();
 
         final var linkSessionExpected = new LinkSession(planningSession.getId());
 

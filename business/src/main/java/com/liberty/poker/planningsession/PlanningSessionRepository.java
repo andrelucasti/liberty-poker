@@ -10,4 +10,5 @@ public interface PlanningSessionRepository {
     PlanningSession findMandatoryById(UUID id);
 
     List<PlanningSession> findAll();
+
 }

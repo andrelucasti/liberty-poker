@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import static com.liberty.poker.planningsession.PlanningSession.DeckType.FIBONACCI;
 import static org.hamcrest.Matchers.*;
 
 //TODO we can put this configuration in a abstract E2E class - AbstractE2ETest
@@ -26,6 +27,9 @@ import static org.hamcrest.Matchers.*;
 class PlanningSessionControllerE2ETest {
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    @Autowired
+    private PlanningSessionRepository planningSessionRepository;
 
     @BeforeEach
     void setUp() {
@@ -70,10 +74,30 @@ class PlanningSessionControllerE2ETest {
 
     }
 
+    @Test
+    void shouldEnterInPlanningPokerSessionWhenLinkSessionWasGeneratedAndExists() throws IOException {
+        final var planningSession = planningSessionRepository
+                .save(new PlanningSession("Liberty Planning Poker Session", FIBONACCI));
+        final var memberPostMsg = createMemberAsJsonMsg("Andre Lucas");
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(memberPostMsg)
+                .post("/planning-session/room/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.CREATED);
+    }
+
     private String createPlanningSessionAsJsonMsg(final String title, final String deckType) throws IOException {
         return Resources.toString(Resources.getResource("planning-session-post.json"),
                         StandardCharsets.UTF_8)
                 .replace("{title}", title)
                 .replace("{deckType}", deckType);
+    }
+
+    private String createMemberAsJsonMsg(final String nickName) throws IOException {
+        return Resources.toString(Resources.getResource("member-join-post.json"),
+                        StandardCharsets.UTF_8)
+                .replace("{nickName}", nickName);
     }
 }
