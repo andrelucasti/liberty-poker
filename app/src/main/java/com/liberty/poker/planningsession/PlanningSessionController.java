@@ -20,24 +20,17 @@ import java.util.UUID;
 @RequestMapping(path = "/planning-session")
 public class PlanningSessionController {
 
-    private final CreatePlanningPokerSession createPlanningPokerSession;
-    private final PlanningSessionRequestToPlanningSessionConverter requestToModel;
-    private final PlanningPokerSessionDTOToPlanningSessionResponseConverter dtoToResponse;
-
     private final ConversionService converter;
+    private final CreatePlanningPokerSession createPlanningPokerSession;
     private final JoinMember joinMember;
     private final DestroyPlanningPokerSession destroyPlanningPokerSession;
 
-    public PlanningSessionController(final CreatePlanningPokerSession createPlanningPokerSession,
-                                     final PlanningSessionRequestToPlanningSessionConverter requestToModel,
-                                     final PlanningPokerSessionDTOToPlanningSessionResponseConverter dtoToResponse,
-                                     final ConversionService converter,
+    public PlanningSessionController(final ConversionService converter,
+                                     final CreatePlanningPokerSession createPlanningPokerSession,
                                      final JoinMember joinMember,
                                      final DestroyPlanningPokerSession destroyPlanningPokerSession) {
-        this.createPlanningPokerSession = createPlanningPokerSession;
-        this.requestToModel = requestToModel;
-        this.dtoToResponse = dtoToResponse;
         this.converter = converter;
+        this.createPlanningPokerSession = createPlanningPokerSession;
         this.joinMember = joinMember;
         this.destroyPlanningPokerSession = destroyPlanningPokerSession;
     }
@@ -47,12 +40,13 @@ public class PlanningSessionController {
 
         //Wrapper
         final var planningPokerSessionDTO =
-                createPlanningPokerSession.execute(requestToModel.converter(planningSessionRequest));
+                createPlanningPokerSession.execute(converter.convert(planningSessionRequest, PlanningSession.class));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(dtoToResponse.converter(planningPokerSessionDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(converter.convert(planningPokerSessionDTO, PlanningSessionResponse.class));
     }
 
     @PostMapping("/room/{planningSessionId}")
+    //TODO change to new Controller and create new test when the room not exist anymore
     public ResponseEntity<PlanningPokerRoomSessionResponse> joinToRoom(@PathVariable final UUID planningSessionId,
                                                      @RequestBody final MemberRequest memberRequest) throws PlanningSessionNotFoundException {
 
