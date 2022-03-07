@@ -21,5 +21,6 @@ class AddUserStoryIntegrationTest extends AbstractIntegrationTests {
         Assertions.assertThat(actualUserStory.getId()).isNotNull();
         Assertions.assertThat(actualUserStory.getDescription()).isEqualTo(expectedUseStory.getDescription());
         Assertions.assertThat(actualUserStory.getPlanningSessionId()).isEqualTo(expectedUseStory.getPlanningSessionId());
+        Assertions.assertThat(actualUserStory.getUserStoryStatus()).isEqualTo(UserStory.UserStoryStatus.PENDING);
     }
 }

@@ -13,6 +13,6 @@ public class UserStoryEntityToUserStoryConverter extends AbstractConverter<UserS
 
     @Override
     public UserStory convert(final UserStoryEntity source) {
-        return new UserStory(source.getUuid(), source.getDescription(), source.getPlanningSessionId());
+        return new UserStory(source.getUuid(), source.getDescription(), UserStory.UserStoryStatus.valueOf(source.getStatus()), source.getPlanningSessionId());
     }
 }

@@ -1,9 +1,6 @@
 package com.liberty.poker.planningsession;
 
 
-import com.liberty.poker.member.InviteMemberToPlanningSession;
-import com.liberty.poker.member.MemberRequest;
-import com.liberty.poker.member.Member;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +19,14 @@ public class PlanningSessionController {
 
     private final ConversionService converter;
     private final CreatePlanningPokerSession createPlanningPokerSession;
-    private final DestroyPlanningPokerSession destroyPlanningPokerSession;
+    private final DestroyPlanningSession destroyPlanningSession;
 
     public PlanningSessionController(final ConversionService converter,
                                      final CreatePlanningPokerSession createPlanningPokerSession,
-                                     final DestroyPlanningPokerSession destroyPlanningPokerSession) {
+                                     final DestroyPlanningSession destroyPlanningSession) {
         this.converter = converter;
         this.createPlanningPokerSession = createPlanningPokerSession;
-        this.destroyPlanningPokerSession = destroyPlanningPokerSession;
+        this.destroyPlanningSession = destroyPlanningSession;
     }
 
     @PostMapping
@@ -45,7 +42,7 @@ public class PlanningSessionController {
     @DeleteMapping("/{planningSessionId}")
     public ResponseEntity<HttpStatus> destroy(@PathVariable final UUID planningSessionId){
 
-        destroyPlanningPokerSession.execute(planningSessionId);
+        destroyPlanningSession.execute(planningSessionId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

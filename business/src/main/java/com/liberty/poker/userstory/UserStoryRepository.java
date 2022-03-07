@@ -15,4 +15,6 @@ public interface UserStoryRepository {
 
     @VisibleForTesting
     void deleteAll();
+
+    void update(UserStory userStory);
 }

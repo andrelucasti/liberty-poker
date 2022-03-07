@@ -15,9 +15,9 @@ import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class DestroyPlanningPokerSessionTest {
+class DestroyPlanningSessionTest {
 
-    private DestroyPlanningPokerSession subject;
+    private DestroyPlanningSession subject;
 
     @Mock
     private PlanningSessionRepository planningSessionRepository;
@@ -33,7 +33,7 @@ class DestroyPlanningPokerSessionTest {
 
     @BeforeEach
     void setUp() {
-        subject = new DestroyPlanningPokerSession(removeUserStoryFromPlanningSession, removeMembersFromPlanningSession, destroyLinkSessionFromPlanningSession, planningSessionRepository);
+        subject = new DestroyPlanningSession(removeUserStoryFromPlanningSession, removeMembersFromPlanningSession, destroyLinkSessionFromPlanningSession, planningSessionRepository);
     }
 
     @Test

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,11 +14,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import java.time.LocalDate;
 import java.util.UUID;
+
+import static com.liberty.poker.userstory.UserStory.*;
 
 @Entity(name = "USER_STORY")
 @EntityListeners(AuditingEntityListener.class)
@@ -38,6 +42,10 @@ public class UserStoryEntity {
     @Column(name = "DESCRIPTION")
     @NonNull
     private String description;
+
+    @Column(name = "STATUS")
+    @NonNull
+    private String status;
 
     @Column(name = "PLANNING_SESSION_ID")
     @NonNull

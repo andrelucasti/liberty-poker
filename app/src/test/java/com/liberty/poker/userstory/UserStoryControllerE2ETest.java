@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 import static com.liberty.poker.planningsession.PlanningSession.DeckType.FIBONACCI;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,8 +74,10 @@ class UserStoryControllerE2ETest {
                 .post("/user-story")
                 .then()
                 .status(HttpStatus.CREATED)
+                .body("id", Matchers.any(String.class))
                 .body("description", Matchers.equalTo(userStoryDescription))
-                .body("planningSessionId", Matchers.equalTo(planningSession.getId().toString()));
+                .body("planningSessionId", Matchers.equalTo(planningSession.getId().toString()))
+                .body("status", Matchers.equalTo(UserStory.UserStoryStatus.PENDING.toString()));
     }
 
     @Test
@@ -89,6 +92,24 @@ class UserStoryControllerE2ETest {
                 .delete("/user-story/".concat(userStory.getId().toString()))
                 .then()
                 .status(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    void shouldReturnOkWhenUserStoryWhenVoteIsStarted() throws IOException {
+        final var planningSession = planningSessionRepository
+                .save(new PlanningSession("Liberty Planning Poker Session", FIBONACCI));
+
+        final var userStoryDescription = "Any Description";
+        final var userStoryPostMsg = createUserStoryAsJsonMsg(userStoryDescription,
+                planningSession.getId().toString());
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(userStoryPostMsg)
+                .put("/user-story/start/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.OK);
+
     }
 
 

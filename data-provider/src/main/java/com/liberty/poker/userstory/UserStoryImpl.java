@@ -24,8 +24,10 @@ public class UserStoryImpl implements UserStoryRepository{
 
     @Override
     public UserStory save(final UserStory userStory) {
+        final var convert = conversionService.convert(userStory, UserStoryEntity.class);
+
         final var userStoryEntity =
-                userRepositoryEntity.save(Objects.requireNonNull(conversionService.convert(userStory, UserStoryEntity.class)));
+                userRepositoryEntity.save(Objects.requireNonNull(convert));
         return conversionService.convert(userStoryEntity, UserStory.class);
     }
 
@@ -61,5 +63,10 @@ public class UserStoryImpl implements UserStoryRepository{
     @VisibleForTesting
     public void deleteAll() {
         userRepositoryEntity.deleteAll();
+    }
+
+    @Override
+    public void update(final UserStory userStory) {
+        userRepositoryEntity.updateStatus(userStory.getId(), userStory.getUserStoryStatus().toString());
     }
 }

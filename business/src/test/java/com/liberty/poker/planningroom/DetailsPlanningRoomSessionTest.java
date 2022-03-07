@@ -14,10 +14,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.liberty.poker.planningsession.PlanningSession.*;
+import static com.liberty.poker.userstory.UserStory.UserStoryStatus.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,8 +50,8 @@ class DetailsPlanningRoomSessionTest {
                 new Member("Alexandre Lima", planningSessionId));
 
         final var storyList = List.of(
-                new UserStory(UUID.randomUUID(), "story1", planningSessionId),
-                new UserStory(UUID.randomUUID(), "story2", planningSessionId));
+                new UserStory(UUID.randomUUID(), "story1", VOTING, planningSessionId),
+                new UserStory(UUID.randomUUID(), "story2", VOTING, planningSessionId));
 
         final var expectedPlanningRoomSessionDTO = new PlanningRoomSessionDTO(planningTitle, memberList, storyList);
 

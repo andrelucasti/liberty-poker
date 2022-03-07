@@ -5,10 +5,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class DestroyPlanningPokerSessionIntegrationTest extends AbstractIntegrationTests{
+class DestroyPlanningSessionIntegrationTest extends AbstractIntegrationTests{
 
     @Autowired
-    private DestroyPlanningPokerSession subject;
+    private DestroyPlanningSession subject;
 
     @Test
     void shouldDestroyPlanningSession() {
