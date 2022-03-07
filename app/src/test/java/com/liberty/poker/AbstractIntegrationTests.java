@@ -4,6 +4,7 @@ import com.liberty.poker.linksession.LinkSession;
 import com.liberty.poker.linksession.LinkSessionRepository;
 import com.liberty.poker.member.Member;
 import com.liberty.poker.member.MemberRepository;
+import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.planningsession.PlanningSession;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
 import com.liberty.poker.userstory.UserStory;
@@ -15,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public abstract class AbstractIntegrationTests {
 
-
     @BeforeEach
     void setUp() {
+        memberUserStoryRepository.deleteAll();
         userStoryRepository.deleteAll();
         memberRepository.deleteAll();
         linkSessionRepository.deleteAll();
@@ -35,6 +36,9 @@ public abstract class AbstractIntegrationTests {
 
     @Autowired
     protected UserStoryRepository userStoryRepository;
+
+    @Autowired
+    protected MemberUserStoryRepository memberUserStoryRepository;
 
     protected PlanningSession createPlanningSession() {
         return planningSessionRepository.save(

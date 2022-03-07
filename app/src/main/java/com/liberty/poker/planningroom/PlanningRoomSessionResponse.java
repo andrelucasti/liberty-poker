@@ -1,4 +1,4 @@
-package com.liberty.poker.planningsession;
+package com.liberty.poker.planningroom;
 
 import com.liberty.poker.member.Member;
 import com.liberty.poker.planningroom.MemberRoomDTO;
@@ -12,16 +12,13 @@ public class PlanningRoomSessionResponse {
 
     private final String title;
     private final List<Member> members;
-    private final List<MemberRoomDTO> memberRoomDTOS;
     private final List<UserStory> userStories;
 
     public PlanningRoomSessionResponse(final String title,
                                        final List<Member> members,
-                                       final List<MemberRoomDTO> memberRoomDTOS,
                                        final List<UserStory> userStories) {
         this.title = title;
         this.members = members;
-        this.memberRoomDTOS = memberRoomDTOS;
         this.userStories = userStories;
     }
 }

@@ -1,9 +1,9 @@
-package com.liberty.poker.planningsession;
+package com.liberty.poker.planningroom;
 
 import com.liberty.poker.member.InviteMemberToPlanningSession;
 import com.liberty.poker.member.Member;
 import com.liberty.poker.member.MemberRequest;
-import com.liberty.poker.planningroom.DetailsPlanningRoomSession;
+import com.liberty.poker.planningsession.PlanningSessionNotFoundException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,10 +48,10 @@ public class PlanningSessionRoomController {
 
     @GetMapping("{planningSessionId}")
     //TODO create a new test when the room not exist anymore
-    public ResponseEntity<PlanningRoomSessionResponse> showRoom(@PathVariable final UUID planningSessionId){
+    public ResponseEntity<PlanningRoomSessionDetailsResponse> details(@PathVariable final UUID planningSessionId){
 
-        final var planningRoomSessionDTO = detailsPlanningRoomSession.execute(planningSessionId);
+        final var planningRoomSessionDetailsDTO = detailsPlanningRoomSession.execute(planningSessionId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(conversionService.convert(planningRoomSessionDTO, PlanningRoomSessionResponse.class));
+        return ResponseEntity.status(HttpStatus.OK).body(conversionService.convert(planningRoomSessionDetailsDTO, PlanningRoomSessionDetailsResponse.class));
     }
 }

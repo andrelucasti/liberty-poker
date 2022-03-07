@@ -1,13 +1,15 @@
-package com.liberty.poker.planningsession;
+package com.liberty.poker.planningroom;
 
 import com.liberty.poker.AbstractConverter;
+import com.liberty.poker.planningsession.PlanningPokerSessionDTO;
+import com.liberty.poker.planningsession.PlanningSessionResponse;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlanningPokerSessionDTOToPlanningSessionResponseConverter extends AbstractConverter<PlanningPokerSessionDTO, PlanningSessionResponse> {
+public class PlanningSessionDTOToPlanningSessionResponseConverter extends AbstractConverter<PlanningPokerSessionDTO, PlanningSessionResponse> {
 
-    protected PlanningPokerSessionDTOToPlanningSessionResponseConverter(ConfigurableConversionService conversionService) {
+    protected PlanningSessionDTOToPlanningSessionResponseConverter(ConfigurableConversionService conversionService) {
         super(conversionService);
     }
 

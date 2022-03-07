@@ -12,8 +12,8 @@ class DestroyPlanningSessionIntegrationTest extends AbstractIntegrationTests{
 
     @Test
     void shouldDestroyPlanningSession() {
-        final var planningPokerSession = createPlanningSession();
-        subject.execute(planningPokerSession.getId());
+        final var planningSession = createPlanningSession();
+        subject.execute(planningSession.getId());
 
         final var planningSessionList = planningSessionRepository.findAll();
         Assertions.assertThat(planningSessionList).isEmpty();

@@ -9,7 +9,6 @@ import com.liberty.poker.userstory.UserStoryRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class DetailsPlanningRoomSession {
 
 //    @Transactional(readOnly = true) // if we were working with two database, read and write.
     @Transactional
-    public PlanningRoomSessionDTO execute(final UUID planningSessionId) {
+    public PlanningRoomSessionDetailsDTO execute(final UUID planningSessionId) {
         final var planningSession = planningSessionRepository.findMandatoryById(planningSessionId);
         final var members = memberRepository.findByPlanningSessionId(planningSessionId);
         final var userStories = userStoryRepository.findByPlanningSessionId(planningSessionId);
@@ -54,6 +53,6 @@ public class DetailsPlanningRoomSession {
 
                     return new MemberRoomDTO(member.getId(), member.getNickName(), userStoryList, planningSessionId);
                 }).collect(Collectors.toList());
-        return new PlanningRoomSessionDTO(planningSession.getTitle(), memberRoomDTOS, Collections.emptyList(), userStories);
+        return new PlanningRoomSessionDetailsDTO(planningSession.getTitle(), memberRoomDTOS,userStories);
     }
 }

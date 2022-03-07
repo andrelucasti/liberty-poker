@@ -3,6 +3,8 @@ package com.liberty.poker.member;
 import com.liberty.poker.planningsession.PlanningSession;
 import com.liberty.poker.planningsession.PlanningSessionNotFoundException;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
+import com.liberty.poker.userstory.UserStory;
+import com.liberty.poker.userstory.UserStoryRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.liberty.poker.planningsession.PlanningSession.*;
+import static com.liberty.poker.userstory.UserStory.UserStoryStatus.PENDING;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,9 +30,12 @@ class InviteMemberToPlanningSessionTest {
     @Mock
     private PlanningSessionRepository planningSessionRepository;
 
+    @Mock
+    private UserStoryRepository userStoryRepository;
+
     @BeforeEach
     void setUp() {
-        subject = new InviteMemberToPlanningSession(new CreateMember(memberRepository), memberRepository, planningSessionRepository);
+        subject = new InviteMemberToPlanningSession(new CreateMember(memberRepository), memberRepository, planningSessionRepository, userStoryRepository);
     }
 
     @Test
@@ -66,7 +72,21 @@ class InviteMemberToPlanningSessionTest {
     }
 
     @Test
-    void shouldReturnAllUserStoriesInPlanningPokerRoomSessionWhenEnterAnyPlanningSession() {
-        //TODO ...
+    void shouldReturnAllUserStoriesInPlanningRoomSessionWhenEnterAnyPlanningSession() throws PlanningSessionNotFoundException {
+        final var planningSessionId = UUID.randomUUID();
+        final var newMember = new Member("Andre Lucas", planningSessionId);
+
+        final var anyStory = new UserStory(UUID.randomUUID(), "anyStory", PENDING, planningSessionId);
+
+        when(planningSessionRepository.findById(eq(planningSessionId)))
+                .thenReturn(Optional.of(new PlanningSession(planningSessionId, "Liberty P Session", DeckType.FIBONACCI)));
+
+        when(userStoryRepository.findByPlanningSessionId(eq(planningSessionId)))
+                .thenReturn(List.of(anyStory));
+
+        final var planningRoomSessionDTO = subject.execute(newMember);
+
+        Assertions.assertThat(planningRoomSessionDTO.getUserStoryList()).isNotEmpty();
+        Assertions.assertThat(planningRoomSessionDTO.getUserStoryList()).contains(anyStory);
     }
 }

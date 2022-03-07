@@ -5,6 +5,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.stream.Collectors;
+
 class RemoveMembersFromPlanningSessionIntegrationTest extends AbstractIntegrationTests {
 
     @Autowired
@@ -48,6 +50,7 @@ class RemoveMembersFromPlanningSessionIntegrationTest extends AbstractIntegratio
 
         Assertions.assertThat(memberList).isNotEmpty();
         Assertions.assertThat(memberList).hasSize(2);
-        Assertions.assertThat(memberList).contains(vijay, jason);
+        Assertions.assertThat(memberList.stream().map(Member::getNickName).collect(Collectors.toList()))
+                .contains(vijay.getNickName(), jason.getNickName());
     }
 }

@@ -42,4 +42,9 @@ public class MemberUserStoryRepositoryImpl implements MemberUserStoryRepository{
                 .map(entityToModel::convert)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAll() {
+        memberUserStoryRepositoryEntity.deleteAll();
+    }
 }

@@ -1,5 +1,6 @@
 package com.liberty.poker.memberuserstory;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.liberty.poker.planningsession.PlanningSession;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface MemberUserStoryRepository {
     List<MemberUserStory> findAll();
 
     List<MemberUserStory> findByMemberIdAndPlanningSessionId(UUID id, UUID planningSessionId);
+    @VisibleForTesting
+    void deleteAll();
 }

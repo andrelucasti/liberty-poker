@@ -3,6 +3,7 @@ package com.liberty.poker;
 import com.google.common.io.Resources;
 import com.liberty.poker.linksession.LinkSessionRepository;
 import com.liberty.poker.member.MemberRepository;
+import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
 import com.liberty.poker.userstory.UserStoryRepository;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -26,8 +27,13 @@ public abstract class AbstractE2ETest {
     @BeforeEach
     void setUp() {
         RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
-    }
+        memberUserStoryRepository.deleteAll();
+        userStoryRepository.deleteAll();
+        memberRepository.deleteAll();
+        linkSessionRepository.deleteAll();
+        planningSessionRepository.deleteAll();
 
+    }
 
     @Autowired
     protected PlanningSessionRepository planningSessionRepository;
@@ -40,6 +46,9 @@ public abstract class AbstractE2ETest {
 
     @Autowired
     protected UserStoryRepository userStoryRepository;
+
+    @Autowired
+    protected MemberUserStoryRepository memberUserStoryRepository;
 
     protected String createMemberAsJsonMsg(final String nickName) throws IOException {
         return Resources.toString(Resources.getResource("member-join-post.json"),
