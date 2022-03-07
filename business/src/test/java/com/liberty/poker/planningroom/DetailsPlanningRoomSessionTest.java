@@ -2,6 +2,7 @@ package com.liberty.poker.planningroom;
 
 import com.liberty.poker.member.Member;
 import com.liberty.poker.member.MemberRepository;
+import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.planningsession.PlanningSession;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
 import com.liberty.poker.userstory.UserStory;
@@ -32,10 +33,13 @@ class DetailsPlanningRoomSessionTest {
     @Mock
     private UserStoryRepository userStoryRepository;
 
+    @Mock
+    private MemberUserStoryRepository memberUserStoryRepository;
+
 
     @BeforeEach
     void setUp() {
-        subject = new DetailsPlanningRoomSession(planningSessionRepository, memberRepository, userStoryRepository);
+        subject = new DetailsPlanningRoomSession(planningSessionRepository, memberRepository, userStoryRepository, memberUserStoryRepository);
     }
 
     @Test
@@ -65,7 +69,6 @@ class DetailsPlanningRoomSessionTest {
                 .thenReturn(storyList);
 
         final var actualPlanningRoomSessionDTO = subject.execute(planningSessionId);
-
 
         Assertions.assertThat(actualPlanningRoomSessionDTO).isEqualTo(expectedPlanningRoomSessionDTO);
     }

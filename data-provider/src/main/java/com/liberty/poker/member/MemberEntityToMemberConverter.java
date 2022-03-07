@@ -13,6 +13,6 @@ public class MemberEntityToMemberConverter extends AbstractConverter<MemberEntit
 
     @Override
     public Member convert(final MemberEntity source) {
-        return new Member(source.getNickName(), source.getPlanningSessionId());
+        return new Member(source.getUuid(), source.getNickName(), source.getPlanningSessionId());
     }
 }

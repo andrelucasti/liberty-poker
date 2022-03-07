@@ -2,6 +2,7 @@ package com.liberty.poker;
 
 import com.liberty.poker.linksession.LinkSession;
 import com.liberty.poker.linksession.LinkSessionRepository;
+import com.liberty.poker.member.Member;
 import com.liberty.poker.member.MemberRepository;
 import com.liberty.poker.planningsession.PlanningSession;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
@@ -46,5 +47,9 @@ public abstract class AbstractIntegrationTests {
 
     protected UserStory createUserStory(final PlanningSession planningSession) {
         return userStoryRepository.save(new UserStory("anyDesc", planningSession.getId()));
+    }
+
+    protected Member createMember(final PlanningSession planningSession) {
+        return memberRepository.save(new Member("anyMember", planningSession.getId()));
     }
 }

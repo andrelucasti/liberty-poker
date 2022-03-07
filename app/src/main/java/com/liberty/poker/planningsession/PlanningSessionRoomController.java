@@ -47,13 +47,11 @@ public class PlanningSessionRoomController {
     }
 
     @GetMapping("{planningSessionId}")
-    //TODO change to new Controller and create new test when the room not exist anymore
+    //TODO create a new test when the room not exist anymore
     public ResponseEntity<PlanningRoomSessionResponse> showRoom(@PathVariable final UUID planningSessionId){
 
         final var planningRoomSessionDTO = detailsPlanningRoomSession.execute(planningSessionId);
 
         return ResponseEntity.status(HttpStatus.OK).body(conversionService.convert(planningRoomSessionDTO, PlanningRoomSessionResponse.class));
     }
-
-
 }

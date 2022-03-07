@@ -30,6 +30,32 @@ class PlanningSessionRoomControllerE2ETest extends AbstractE2ETest {
     }
 
     @Test
+    void shouldReturnMembersWhenJoinInPlanningSession() throws IOException {
+        final var planningSession = createPlanningSession();
+        final var memberPostMsg = createMemberAsJsonMsg("Andre Lucas");
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(memberPostMsg)
+                .post("/room/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.CREATED);
+    }
+
+    @Test
+    void shouldReturnUserStoriesWhenJoinInPlanningSession() throws IOException {
+        final var planningSession = createPlanningSession();
+        final var memberPostMsg = createMemberAsJsonMsg("Andre Lucas");
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(memberPostMsg)
+                .post("/room/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.CREATED);
+    }
+
+    @Test
     void shouldReturnMembersInBodyWhenGetPlanningRoomSession() {
         final var planningSession = createPlanningSession();
         memberRepository.save(new Member("Andre Lucas", planningSession.getId()));

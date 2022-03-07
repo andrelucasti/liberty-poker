@@ -14,6 +14,7 @@ public class PlanningRoomSessionDTOToPlanningPokerRoomSessionResponseConverter e
 
     @Override
     public PlanningRoomSessionResponse convert(final PlanningRoomSessionDTO source) {
-        return new PlanningRoomSessionResponse(source.getTitle(), source.getMembers(), source.getUserStoryList());
+        //TODO create detailResponse
+        return new PlanningRoomSessionResponse(source.getTitle(), source.getMembers(), source.getMemberRoomDTOS(), source.getUserStoryList());
     }
 }

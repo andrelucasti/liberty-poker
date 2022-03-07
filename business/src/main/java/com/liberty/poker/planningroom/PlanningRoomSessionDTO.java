@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -14,8 +15,9 @@ import java.util.List;
 public class PlanningRoomSessionDTO {
 
     private final String title;
-    private final List<Member> members;
     private final List<UserStory> userStoryList;
+    private final List<MemberRoomDTO> memberRoomDTOS;
+    private final List<Member> members;
 
     public PlanningRoomSessionDTO(final String title,
                                   final List<Member> members,
@@ -23,5 +25,16 @@ public class PlanningRoomSessionDTO {
         this.title = title;
         this.members = members;
         this.userStoryList = userStoryList;
+        this.memberRoomDTOS = Collections.emptyList();
+    }
+
+    public PlanningRoomSessionDTO(final String title,
+                                  final List<MemberRoomDTO> memberRoomDTOS,
+                                  final List<Member> members,
+                                  final List<UserStory> userStories) {
+        this.title = title;
+        this.memberRoomDTOS = memberRoomDTOS;
+        this.userStoryList = userStories;
+        this.members = members;
     }
 }
