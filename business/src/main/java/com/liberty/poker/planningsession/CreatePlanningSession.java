@@ -5,12 +5,12 @@ import com.liberty.poker.linksession.LinkSession;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreatePlanningPokerSession {
+public class CreatePlanningSession {
     private final PlanningSessionRepository planningSessionRepository;
     private final GenerateLinkSession generateLinkSession;
 
-    public CreatePlanningPokerSession(final PlanningSessionRepository planningSessionRepository, 
-                                      final GenerateLinkSession generateLinkSession) {
+    public CreatePlanningSession(final PlanningSessionRepository planningSessionRepository,
+                                 final GenerateLinkSession generateLinkSession) {
         this.planningSessionRepository = planningSessionRepository;
         this.generateLinkSession = generateLinkSession;
     }

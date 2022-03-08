@@ -10,7 +10,6 @@ import com.liberty.poker.userstory.UserStoryRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -67,6 +66,6 @@ public class DetailsPlanningRoomSession {
     }
 
     private boolean hasAlreadyBeenVoted(final MemberUserStory memberUserStory) {
-        return memberUserStory.getValue() > 0;
+        return memberUserStory.getValueValue() > 0;
     }
 }

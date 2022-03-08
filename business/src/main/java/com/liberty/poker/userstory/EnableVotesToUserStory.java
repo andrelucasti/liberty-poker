@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.liberty.poker.userstory.UserStory.UserStoryStatus.*;
+import static java.util.function.Predicate.*;
 
 @Service
 public class EnableVotesToUserStory {
@@ -29,7 +31,7 @@ public class EnableVotesToUserStory {
     public void execute(final UUID planningSessionId) {
         final var userStoryPending = userStoryRepository.findByPlanningSessionId(planningSessionId)
                 .stream()
-                .filter(userStory -> userStory.getUserStoryStatus().equals(PENDING))
+                .filter(not(userStory -> userStory.getUserStoryStatus().equals(VOTED)))
                 .collect(Collectors.toList());
 
         userStoryPending.stream()

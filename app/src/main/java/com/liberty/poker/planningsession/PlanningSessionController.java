@@ -18,14 +18,14 @@ import java.util.UUID;
 public class PlanningSessionController {
 
     private final ConversionService converter;
-    private final CreatePlanningPokerSession createPlanningPokerSession;
+    private final CreatePlanningSession createPlanningSession;
     private final DestroyPlanningSession destroyPlanningSession;
 
     public PlanningSessionController(final ConversionService converter,
-                                     final CreatePlanningPokerSession createPlanningPokerSession,
+                                     final CreatePlanningSession createPlanningSession,
                                      final DestroyPlanningSession destroyPlanningSession) {
         this.converter = converter;
-        this.createPlanningPokerSession = createPlanningPokerSession;
+        this.createPlanningSession = createPlanningSession;
         this.destroyPlanningSession = destroyPlanningSession;
     }
 
@@ -34,7 +34,7 @@ public class PlanningSessionController {
 
         //Wrapper
         final var planningPokerSessionDTO =
-                createPlanningPokerSession.execute(converter.convert(planningSessionRequest, PlanningSession.class));
+                createPlanningSession.execute(converter.convert(planningSessionRequest, PlanningSession.class));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(converter.convert(planningPokerSessionDTO, PlanningSessionResponse.class));
     }

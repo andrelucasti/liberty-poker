@@ -66,6 +66,8 @@ public class UserStoryController {
     public ResponseEntity<HttpStatus> vote(@PathVariable final UUID planningSessionId,
                                            @RequestBody final MemberUserStoryRequest memberUserStoryRequest ) throws UserStoryVoteException {
 
+        System.out.println(memberUserStoryRequest);
+
         voteForUserStory.execute(memberUserStoryRequest.getMemberId(), memberUserStoryRequest.getUserStoryId(), planningSessionId, memberUserStoryRequest.getValue());
 
         return ResponseEntity.status(HttpStatus.OK).build();

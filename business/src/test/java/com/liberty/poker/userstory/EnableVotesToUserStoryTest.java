@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.liberty.poker.userstory.UserStory.UserStoryStatus.PENDING;
 import static com.liberty.poker.userstory.UserStory.UserStoryStatus.VOTED;
@@ -60,10 +61,8 @@ class EnableVotesToUserStoryTest {
     void shouldEnableVotesJustUserStoryThatAreDifferentVotingAndVoted() {
         final var userStoryArgumentCaptor = ArgumentCaptor.forClass(UserStory.class);
         final var planningSessionId = UUID.randomUUID();
-        final var userStoryId = UUID.randomUUID();
-        final var userStoryDesc = "userStoryPending";
 
-        final var userStoryPending = new UserStory(userStoryId, userStoryDesc, PENDING, planningSessionId);
+        final var userStoryPending = new UserStory(UUID.randomUUID(), "userStoryPending", PENDING, planningSessionId);
         final var userStoryVoting = new UserStory(UUID.randomUUID(), "userStoryVoting", VOTING, planningSessionId);
         final var userStoryVoted = new UserStory(UUID.randomUUID(), "userStoryVoted", VOTED, planningSessionId);
 
@@ -72,10 +71,13 @@ class EnableVotesToUserStoryTest {
 
         subject.execute(planningSessionId);
 
-        verify(userStoryRepository, times(1)).update(userStoryArgumentCaptor.capture());
+        verify(userStoryRepository, times(2)).update(userStoryArgumentCaptor.capture());
         final var storyList = userStoryArgumentCaptor.getAllValues();
-        Assertions.assertThat(storyList).hasSize(1);
-        Assertions.assertThat(storyList.stream().findFirst().get()).isEqualTo(new UserStory(userStoryId, userStoryDesc, VOTING, planningSessionId));
+        Assertions.assertThat(storyList).hasSize(2);
+        Assertions.assertThat(storyList.stream().map(UserStory::getId).collect(Collectors.toList())).contains(userStoryPending.getId(), userStoryVoting.getId());
+        Assertions.assertThat(storyList.stream().map(UserStory::getId).collect(Collectors.toList())).doesNotContain(userStoryVoted.getId());
+        Assertions.assertThat(storyList.stream().map(UserStory::getUserStoryStatus).collect(Collectors.toList())).contains(VOTING, VOTING);
+        Assertions.assertThat(storyList.stream().map(UserStory::getUserStoryStatus).collect(Collectors.toList())).doesNotContain(VOTED);
     }
 
     @Test

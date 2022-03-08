@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
@@ -17,9 +16,9 @@ import static com.liberty.poker.planningsession.PlanningSession.DeckType.FIBONAC
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CreatePlanningPokerSessionTest {
+class CreatePlanningSessionTest {
 
-    private CreatePlanningPokerSession subject;
+    private CreatePlanningSession subject;
 
     @Mock
     private PlanningSessionRepository planningSessionRepository;
@@ -29,7 +28,7 @@ class CreatePlanningPokerSessionTest {
 
     @BeforeEach
     void setUp() {
-        subject = new CreatePlanningPokerSession(planningSessionRepository, generateLinkSession);
+        subject = new CreatePlanningSession(planningSessionRepository, generateLinkSession);
     }
 
     @Test

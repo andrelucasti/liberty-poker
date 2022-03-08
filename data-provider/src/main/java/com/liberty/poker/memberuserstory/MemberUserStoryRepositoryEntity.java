@@ -13,7 +13,7 @@ public interface MemberUserStoryRepositoryEntity extends JpaRepository<MemberUse
     List<MemberUserStoryEntity> findByUserStoryIdAndPlanningSessionId(UUID memberId, UUID planningSessionId);
 
     @Modifying
-    @Query(value = "update MEMBER_USER_STORY set VALUE_VOTE = :voteValue where MEMBER_ID = :memberId and USER_STORY_ID = :userStoryId and PLANNING_SESSION_ID = :planningSessionId", nativeQuery = true)
+    @Query(value = "update MEMBER_USER_STORY set VOTE_VALUE = :voteValue where MEMBER_ID = :memberId and USER_STORY_ID = :userStoryId and PLANNING_SESSION_ID = :planningSessionId", nativeQuery = true)
     void updateMemberUserStoryBy(@Param("memberId") UUID memberId,
                                  @Param("userStoryId") UUID userStoryId,
                                  @Param("planningSessionId") UUID planningSessionId,

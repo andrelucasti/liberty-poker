@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static com.liberty.poker.planningsession.PlanningSession.DeckType.FIBONACCI;
 
 @SpringBootTest
-class CreatePlanningPokerSessionIntegrationTest {
+class CreatePlanningSessionIntegrationTest {
 
     @Autowired
-    private CreatePlanningPokerSession subject;
+    private CreatePlanningSession subject;
 
     @Autowired
     private PlanningSessionRepository planningSessionRepository;

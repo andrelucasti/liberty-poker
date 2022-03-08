@@ -51,7 +51,11 @@ public class PlanningSessionRoomController {
     public ResponseEntity<PlanningRoomSessionDetailsResponse> details(@PathVariable final UUID planningSessionId){
 
         final var planningRoomSessionDetailsDTO = detailsPlanningRoomSession.execute(planningSessionId);
+        System.out.println(planningRoomSessionDetailsDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body(conversionService.convert(planningRoomSessionDetailsDTO, PlanningRoomSessionDetailsResponse.class));
+        final var planningRoomSessionDetailsResponse = conversionService.convert(planningRoomSessionDetailsDTO, PlanningRoomSessionDetailsResponse.class);
+
+        System.out.println(planningRoomSessionDetailsResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(planningRoomSessionDetailsResponse);
     }
 }

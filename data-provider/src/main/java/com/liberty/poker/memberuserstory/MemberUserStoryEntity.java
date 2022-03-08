@@ -47,6 +47,10 @@ public class MemberUserStoryEntity {
     @NonNull
     private  UUID planningSessionId;
 
+    @Column(name = "VOTE_VALUE")
+    @NonNull
+    private  long voteValue;
+
     @CreatedDate
     @Column(name = "CREATED_DATE")
     private LocalDate createdDate;

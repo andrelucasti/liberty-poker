@@ -13,7 +13,7 @@ public class MemberUserStory {
     private final UUID memberId;
     private final UUID userStoryId;
     private final UUID planningSessionId;
-    private final long value;
+    private final long valueValue;
 
     public MemberUserStory(final UUID memberId,
                            final UUID userStoryId,
@@ -21,16 +21,16 @@ public class MemberUserStory {
         this.memberId = memberId;
         this.userStoryId = userStoryId;
         this.planningSessionId = planningSessionId;
-        this.value = 0;
+        this.valueValue = 0;
     }
 
     public MemberUserStory(final UUID memberId,
                            final UUID userStoryId,
                            final UUID planningSessionId,
-                           final long value) {
+                           final long valueValue) {
         this.memberId = memberId;
         this.userStoryId = userStoryId;
         this.planningSessionId = planningSessionId;
-        this.value = value;
+        this.valueValue = valueValue;
     }
 }

@@ -1,6 +1,5 @@
 package com.liberty.poker.planningroom;
 
-import com.liberty.poker.userstory.UserStory;
 import com.liberty.poker.userstory.UserStoryDTO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

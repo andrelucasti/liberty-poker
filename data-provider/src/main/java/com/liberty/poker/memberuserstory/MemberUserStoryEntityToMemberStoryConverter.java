@@ -13,6 +13,7 @@ public class MemberUserStoryEntityToMemberStoryConverter extends AbstractConvert
 
     @Override
     public MemberUserStory convert(final MemberUserStoryEntity source) {
-        return new MemberUserStory(source.getMemberId(), source.getUserStoryId(), source.getPlanningSessionId());
+        return new MemberUserStory(source.getMemberId(), source.getUserStoryId(),
+                source.getPlanningSessionId(), source.getVoteValue());
     }
 }

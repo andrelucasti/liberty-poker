@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 public class MemberUserStoryToMemberStoryEntityConverter {
 
     public MemberUserStoryEntity convert(final MemberUserStory source) {
-        return MemberUserStoryEntity.of(source.getMemberId(), source.getUserStoryId(), source.getPlanningSessionId());
+        return MemberUserStoryEntity.of(
+                source.getMemberId(),
+                source.getUserStoryId(),
+                source.getPlanningSessionId(),
+                source.getValueValue());
     }
 }
