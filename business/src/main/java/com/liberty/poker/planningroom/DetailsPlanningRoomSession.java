@@ -10,8 +10,12 @@ import com.liberty.poker.userstory.UserStoryRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.liberty.poker.planningroom.MemberRoomDTO.*;
 
 @Component
 public class DetailsPlanningRoomSession {
@@ -39,26 +43,35 @@ public class DetailsPlanningRoomSession {
 
         final var memberRoomDTOS = members.stream()
                 .map(member -> {
-                    final var userStoriesVoted = memberUserStoryRepository
+                    final var userStoriesVotedMap = memberUserStoryRepository
                             .findByMemberIdAndPlanningSessionId(member.getId(), planningSessionId)
                             .stream()
                             .filter(this::hasAlreadyBeenVoted)
-                            .map(MemberUserStory::getUserStoryId)
+                            .collect(Collectors.toMap(MemberUserStory::getUserStoryId, MemberUserStory::getVoteValue));
+
+                    final var storyVotedDTOS = userStories.stream().filter(userStory -> userStoriesVotedMap.containsKey(userStory.getId()))
+                            .map(userStory -> new StoryVotedDTO(userStory.getId(), userStory.getDescription(), userStory.getUserStoryStatus(), userStoriesVotedMap.get(userStory.getId())))
                             .collect(Collectors.toList());
-                    return new MemberRoomDTO(member.getId(), member.getNickName(), userStoriesVoted, planningSessionId);
+
+
+                    return new MemberRoomDTO(member.getId(), member.getNickName(), storyVotedDTOS, planningSession.getId());
                 }).collect(Collectors.toList());
 
 
         final var userStoryDTOS = userStories.stream()
                 .map(userStory -> {
-                    final var memberIds = memberUserStoryRepository
-                            .findByUserStoryIdAndPlanningSessionId(userStory.getId(), planningSessionId)
+                    final var memberUserStories = memberUserStoryRepository
+                            .findByUserStoryIdAndPlanningSessionId(userStory.getId(), planningSessionId);
+
+                    final var memberIds = memberUserStories
                             .stream()
                             .filter(this::hasAlreadyBeenVoted)
                             .map(MemberUserStory::getMemberId)
                             .collect(Collectors.toList());
 
-                    return new UserStoryDTO(userStory.getId(), userStory.getDescription(), userStory.getUserStoryStatus(), memberIds);
+                    final var summaryValue = memberUserStories.stream().map(MemberUserStory::getVoteValue).reduce(0L, Long::sum);
+
+                    return new UserStoryDTO(userStory.getId(), userStory.getDescription(), userStory.getUserStoryStatus(), memberIds, summaryValue);
                 }).collect(Collectors.toList());
 
 
@@ -66,6 +79,6 @@ public class DetailsPlanningRoomSession {
     }
 
     private boolean hasAlreadyBeenVoted(final MemberUserStory memberUserStory) {
-        return memberUserStory.getValueValue() > 0;
+        return memberUserStory.getVoteValue() > 0;
     }
 }

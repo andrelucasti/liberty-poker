@@ -17,7 +17,7 @@ public interface UserStoryRepository {
     @VisibleForTesting
     void deleteAll();
 
-    void update(UserStory userStory);
+    void updateStatus(UserStory userStory);
 
 
     Optional<UserStory> findById(UUID id);

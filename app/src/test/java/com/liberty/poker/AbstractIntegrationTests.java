@@ -13,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 @SpringBootTest
 public abstract class AbstractIntegrationTests {
 
@@ -51,6 +53,11 @@ public abstract class AbstractIntegrationTests {
 
     protected UserStory createUserStory(final PlanningSession planningSession) {
         return userStoryRepository.save(new UserStory("anyDesc", planningSession.getId()));
+    }
+
+    protected UserStory createUserStory(final PlanningSession planningSession,
+                                      final UserStory.UserStoryStatus status) {
+        return userStoryRepository.save(new UserStory(UUID.randomUUID(), "anyDesc", status, planningSession.getId()));
     }
 
     protected Member createMember(final PlanningSession planningSession) {

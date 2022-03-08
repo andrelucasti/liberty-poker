@@ -54,7 +54,7 @@ class EnableVotesToUserStoryTest {
 
         subject.execute(planningSessionId);
 
-        verify(userStoryRepository).update(new UserStory(userStoryId, userStoryDesc, VOTING, planningSessionId));
+        verify(userStoryRepository).updateStatus(new UserStory(userStoryId, userStoryDesc, VOTING, planningSessionId));
     }
 
     @Test
@@ -71,7 +71,7 @@ class EnableVotesToUserStoryTest {
 
         subject.execute(planningSessionId);
 
-        verify(userStoryRepository, times(2)).update(userStoryArgumentCaptor.capture());
+        verify(userStoryRepository, times(2)).updateStatus(userStoryArgumentCaptor.capture());
         final var storyList = userStoryArgumentCaptor.getAllValues();
         Assertions.assertThat(storyList).hasSize(2);
         Assertions.assertThat(storyList.stream().map(UserStory::getId).collect(Collectors.toList())).contains(userStoryPending.getId(), userStoryVoting.getId());

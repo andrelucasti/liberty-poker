@@ -23,18 +23,20 @@ public class UserStoryController {
     private final RemoveUserStory removeUserStory;
     private final EnableVotesToUserStory enableVotesToUserStory;
     private final VoteForUserStory voteForUserStory;
+    private final DisableVotesToUserStory disableVotesToUserStory;
 
 
     public UserStoryController(final ConversionService conversionService,
                                final AddUserStory addUserStory,
                                final RemoveUserStory removeUserStory,
                                final EnableVotesToUserStory enableVotesToUserStory,
-                               final VoteForUserStory voteForUserStory) {
+                               final VoteForUserStory voteForUserStory, DisableVotesToUserStory disableVotesToUserStory) {
         this.conversionService = conversionService;
         this.addUserStory = addUserStory;
         this.removeUserStory = removeUserStory;
         this.enableVotesToUserStory = enableVotesToUserStory;
         this.voteForUserStory = voteForUserStory;
+        this.disableVotesToUserStory = disableVotesToUserStory;
     }
 
     @PostMapping
@@ -66,9 +68,15 @@ public class UserStoryController {
     public ResponseEntity<HttpStatus> vote(@PathVariable final UUID planningSessionId,
                                            @RequestBody final MemberUserStoryRequest memberUserStoryRequest ) throws UserStoryVoteException {
 
-        System.out.println(memberUserStoryRequest);
-
         voteForUserStory.execute(memberUserStoryRequest.getMemberId(), memberUserStoryRequest.getUserStoryId(), planningSessionId, memberUserStoryRequest.getValue());
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/stop/{planningSessionId}")
+    public ResponseEntity<HttpStatus> disableVotes(@PathVariable final UUID planningSessionId){
+
+        disableVotesToUserStory.execute(planningSessionId);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

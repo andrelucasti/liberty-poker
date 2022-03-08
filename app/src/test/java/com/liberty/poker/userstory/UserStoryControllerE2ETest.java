@@ -8,6 +8,7 @@ import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.planningsession.PlanningSession;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,7 @@ class UserStoryControllerE2ETest {
     }
 
     @Test
-    void shouldReturnOkWhenUserStoryWhenVoteIsStarted() throws IOException {
+    void shouldReturnOkWhenUserStoryWhenVoteIsEnabled() throws IOException {
         final PlanningSession planningSession = createPlanningSession();
 
         final var userStoryDescription = "Any Description";
@@ -129,6 +130,22 @@ class UserStoryControllerE2ETest {
                 .put("/user-story/vote/".concat(planningSession.getId().toString()))
                 .then()
                 .status(HttpStatus.OK);
+    }
+
+    @Test
+    void shouldReturnOkWhenUserStoryIsDisableToVotes() throws IOException {
+        final var planningSession = createPlanningSession();
+        final var story = userStoryRepository.save(new UserStory(UUID.randomUUID(), "story1", UserStory.UserStoryStatus.VOTING, planningSession.getId()));
+
+        RestAssuredMockMvc.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .put("/user-story/stop/".concat(planningSession.getId().toString()))
+                .then()
+                .status(HttpStatus.OK);
+
+        final var userStoryStatus = userStoryRepository.findById(story.getId()).get().getUserStoryStatus();
+
+        Assertions.assertThat(userStoryStatus).isEqualTo(UserStory.UserStoryStatus.VOTED);
     }
 
     private String createUserStoryAsJsonMsg(final String description, final String planningSessionId) throws IOException {

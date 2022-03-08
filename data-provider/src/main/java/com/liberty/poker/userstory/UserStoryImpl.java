@@ -65,7 +65,7 @@ public class UserStoryImpl implements UserStoryRepository{
     }
 
     @Override
-    public void update(final UserStory userStory) {
+    public void updateStatus(final UserStory userStory) {
         userRepositoryEntity.updateStatus(userStory.getId(), userStory.getUserStoryStatus().toString());
     }
 

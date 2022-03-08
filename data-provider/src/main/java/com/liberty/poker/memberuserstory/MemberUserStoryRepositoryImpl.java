@@ -59,6 +59,6 @@ public class MemberUserStoryRepositoryImpl implements MemberUserStoryRepository{
     @Override
     public void updateVoteFrom(final MemberUserStory memberUserStory) {
         memberUserStoryRepositoryEntity.updateMemberUserStoryBy(memberUserStory.getMemberId(), memberUserStory.getUserStoryId(),
-                memberUserStory.getPlanningSessionId(), memberUserStory.getValueValue());
+                memberUserStory.getPlanningSessionId(), memberUserStory.getVoteValue());
     }
 }

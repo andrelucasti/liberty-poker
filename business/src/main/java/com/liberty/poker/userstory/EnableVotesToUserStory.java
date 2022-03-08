@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.liberty.poker.userstory.UserStory.UserStoryStatus.*;
@@ -36,7 +35,7 @@ public class EnableVotesToUserStory {
 
         userStoryPending.stream()
                 .map(this::createUserStoryWithVotingStatus)
-                .forEach(userStoryRepository::update);
+                .forEach(userStoryRepository::updateStatus);
 
         final var members = memberRepository.findByPlanningSessionId(planningSessionId);
 

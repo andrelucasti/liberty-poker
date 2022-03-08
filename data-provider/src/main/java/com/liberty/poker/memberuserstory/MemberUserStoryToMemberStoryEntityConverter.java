@@ -10,6 +10,6 @@ public class MemberUserStoryToMemberStoryEntityConverter {
                 source.getMemberId(),
                 source.getUserStoryId(),
                 source.getPlanningSessionId(),
-                source.getValueValue());
+                source.getVoteValue());
     }
 }
