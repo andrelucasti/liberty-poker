@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -52,8 +53,6 @@ public class UserStoryImpl implements UserStoryRepository{
 
     @Override
     public List<UserStory> findByPlanningSessionId(final UUID planningSessionId) {
-//        return findAll().stream().filter(userStory -> userStory.getPlanningSessionId().equals(planningSessionId)).collect(Collectors.toList());
-
         return userRepositoryEntity.findByPlanningSessionId(planningSessionId).stream()
                 .map(userStoryEntity -> conversionService.convert(userStoryEntity, UserStory.class))
                 .collect(Collectors.toList());
@@ -68,5 +67,15 @@ public class UserStoryImpl implements UserStoryRepository{
     @Override
     public void update(final UserStory userStory) {
         userRepositoryEntity.updateStatus(userStory.getId(), userStory.getUserStoryStatus().toString());
+    }
+
+    @Override
+    public Optional<UserStory> findById(final UUID id) {
+        return userRepositoryEntity.findById(id).map(userStoryEntity -> conversionService.convert(userStoryEntity, UserStory.class));
+    }
+
+    @Override
+    public UserStory findMandatoryById(final UUID id) {
+        return this.findById(id).orElseThrow(() -> new RuntimeException(String.format("User Story not found, %s", id)));
     }
 }

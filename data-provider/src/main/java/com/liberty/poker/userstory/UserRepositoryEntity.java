@@ -14,11 +14,6 @@ public interface UserRepositoryEntity extends JpaRepository<UserStoryEntity, UUI
     void deleteByPlanningSessionId(UUID planningSessionId);
     List<UserStoryEntity> findByPlanningSessionId(UUID planningSessionId);
 
-//    @Modifying
-//    @Query("update WorkerAttribute set value = :value where attributeKey = :attributeKey and value <> :value")
-//    void redefineValueAllWorkers(@Param("attributeKey") AttributeKey attributeKey, @Param("value") String value);
-
-
     @Modifying
     @Query(value = "update USER_STORY set STATUS = :status where UUID = :id")
     void updateStatus(@Param("id") UUID id, @Param("status") String status);

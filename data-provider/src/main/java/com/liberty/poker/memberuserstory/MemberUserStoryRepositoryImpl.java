@@ -36,8 +36,16 @@ public class MemberUserStoryRepositoryImpl implements MemberUserStoryRepository{
     }
 
     @Override
-    public List<MemberUserStory> findByMemberIdAndPlanningSessionId(final UUID id, final UUID planningSessionId) {
-        return memberUserStoryRepositoryEntity.findByMemberIdAndPlanningSessionId(id, planningSessionId)
+    public List<MemberUserStory> findByMemberIdAndPlanningSessionId(final UUID memberId, final UUID planningSessionId) {
+        return memberUserStoryRepositoryEntity.findByMemberIdAndPlanningSessionId(memberId, planningSessionId)
+                .stream()
+                .map(entityToModel::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MemberUserStory> findByUserStoryIdAndPlanningSessionId(UUID userStoryId, UUID planningSessionId) {
+        return memberUserStoryRepositoryEntity.findByUserStoryIdAndPlanningSessionId(userStoryId, planningSessionId)
                 .stream()
                 .map(entityToModel::convert)
                 .collect(Collectors.toList());
@@ -46,5 +54,11 @@ public class MemberUserStoryRepositoryImpl implements MemberUserStoryRepository{
     @Override
     public void deleteAll() {
         memberUserStoryRepositoryEntity.deleteAll();
+    }
+
+    @Override
+    public void updateVoteFrom(final MemberUserStory memberUserStory) {
+        memberUserStoryRepositoryEntity.updateMemberUserStoryBy(memberUserStory.getMemberId(), memberUserStory.getUserStoryId(),
+                memberUserStory.getPlanningSessionId(), memberUserStory.getValue());
     }
 }

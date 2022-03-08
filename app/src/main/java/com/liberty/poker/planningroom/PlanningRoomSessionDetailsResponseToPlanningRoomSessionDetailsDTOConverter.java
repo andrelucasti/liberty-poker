@@ -13,6 +13,6 @@ public class PlanningRoomSessionDetailsResponseToPlanningRoomSessionDetailsDTOCo
 
     @Override
     public PlanningRoomSessionDetailsDTO convert(final PlanningRoomSessionDetailsResponse source) {
-        return new PlanningRoomSessionDetailsDTO(source.getTitle(), source.getMembers(), source.getUserStories());
+        return null;
     }
 }

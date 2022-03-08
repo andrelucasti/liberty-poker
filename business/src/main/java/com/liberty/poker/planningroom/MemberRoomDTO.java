@@ -1,6 +1,5 @@
 package com.liberty.poker.planningroom;
 
-import com.liberty.poker.userstory.UserStory;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,16 +13,16 @@ import java.util.UUID;
 public class MemberRoomDTO {
     private final UUID id;
     private final String nickName;
-    private final List<UserStory> userStoryList;
+    private final List<UUID> storiesVoted;
     private final UUID planningSessionId;
 
     public MemberRoomDTO(final UUID id,
                          final String nickName,
-                         final List<UserStory> userStoryList,
+                         final List<UUID> storiesVoted,
                          final UUID planningSessionId) {
         this.id = id;
         this.nickName = nickName;
-        this.userStoryList = userStoryList;
+        this.storiesVoted = storiesVoted;
         this.planningSessionId = planningSessionId;
     }
 }

@@ -1,9 +1,7 @@
-package com.liberty.poker.vote;
+package com.liberty.poker.userstory;
 
 import com.liberty.poker.member.MemberRepository;
 import com.liberty.poker.memberuserstory.ConnectUserStoryToMember;
-import com.liberty.poker.userstory.UserStory;
-import com.liberty.poker.userstory.UserStoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,14 +11,14 @@ import java.util.stream.Collectors;
 import static com.liberty.poker.userstory.UserStory.UserStoryStatus.*;
 
 @Service
-public class StartVote {
+public class EnableVotesToUserStory {
     private final UserStoryRepository userStoryRepository;
     private final MemberRepository memberRepository;
     private final ConnectUserStoryToMember connectUserStoryToMember;
 
-    public StartVote(final UserStoryRepository userStoryRepository,
-                     final MemberRepository memberRepository,
-                     final ConnectUserStoryToMember connectUserStoryToMember) {
+    public EnableVotesToUserStory(final UserStoryRepository userStoryRepository,
+                                  final MemberRepository memberRepository,
+                                  final ConnectUserStoryToMember connectUserStoryToMember) {
 
         this.userStoryRepository = userStoryRepository;
         this.memberRepository = memberRepository;

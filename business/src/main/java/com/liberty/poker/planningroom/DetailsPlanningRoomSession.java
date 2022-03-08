@@ -5,10 +5,12 @@ import com.liberty.poker.member.MemberRepository;
 import com.liberty.poker.memberuserstory.MemberUserStory;
 import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
+import com.liberty.poker.userstory.UserStoryDTO;
 import com.liberty.poker.userstory.UserStoryRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,21 +40,33 @@ public class DetailsPlanningRoomSession {
 
         final var memberRoomDTOS = members.stream()
                 .map(member -> {
-                    final var userStoriesId = memberUserStoryRepository
+                    final var userStoriesVoted = memberUserStoryRepository
                             .findByMemberIdAndPlanningSessionId(member.getId(), planningSessionId)
                             .stream()
+                            .filter(this::hasAlreadyBeenVoted)
                             .map(MemberUserStory::getUserStoryId)
                             .collect(Collectors.toList());
-//                            .map(memberUserStory -> Map.<UUID, Long>of()).collect(Collectors.toList());
+                    return new MemberRoomDTO(member.getId(), member.getNickName(), userStoriesVoted, planningSessionId);
+                }).collect(Collectors.toList());
 
-                    final var userStoryList = userStories
+
+        final var userStoryDTOS = userStories.stream()
+                .map(userStory -> {
+                    final var memberIds = memberUserStoryRepository
+                            .findByUserStoryIdAndPlanningSessionId(userStory.getId(), planningSessionId)
                             .stream()
-                            .filter(userStory -> userStoriesId.contains(userStory.getId()))
+                            .filter(this::hasAlreadyBeenVoted)
+                            .map(MemberUserStory::getMemberId)
                             .collect(Collectors.toList());
 
-
-                    return new MemberRoomDTO(member.getId(), member.getNickName(), userStoryList, planningSessionId);
+                    return new UserStoryDTO(userStory.getId(), userStory.getDescription(), userStory.getUserStoryStatus(), memberIds);
                 }).collect(Collectors.toList());
-        return new PlanningRoomSessionDetailsDTO(planningSession.getTitle(), memberRoomDTOS,userStories);
+
+
+        return new PlanningRoomSessionDetailsDTO(planningSession.getTitle(), memberRoomDTOS, userStoryDTOS);
+    }
+
+    private boolean hasAlreadyBeenVoted(final MemberUserStory memberUserStory) {
+        return memberUserStory.getValue() > 0;
     }
 }

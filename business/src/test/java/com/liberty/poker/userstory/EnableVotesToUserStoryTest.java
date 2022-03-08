@@ -1,10 +1,8 @@
-package com.liberty.poker.vote;
+package com.liberty.poker.userstory;
 
 import com.liberty.poker.member.Member;
 import com.liberty.poker.member.MemberRepository;
 import com.liberty.poker.memberuserstory.ConnectUserStoryToMember;
-import com.liberty.poker.userstory.UserStory;
-import com.liberty.poker.userstory.UserStoryRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,9 +23,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class StartVoteTest {
+class EnableVotesToUserStoryTest {
 
-    private StartVote subject;
+    private EnableVotesToUserStory subject;
 
     @Mock
     private UserStoryRepository userStoryRepository;
@@ -40,7 +38,7 @@ class StartVoteTest {
 
     @BeforeEach
     void setUp() {
-        subject = new StartVote(userStoryRepository, memberRepository, connectUserStoryToMember);
+        subject = new EnableVotesToUserStory(userStoryRepository, memberRepository, connectUserStoryToMember);
     }
 
     @Test

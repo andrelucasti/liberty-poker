@@ -1,7 +1,6 @@
 package com.liberty.poker.userstory;
 
 
-import com.liberty.poker.vote.StartVote;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +21,20 @@ public class UserStoryController {
     private final ConversionService conversionService;
     private final AddUserStory addUserStory;
     private final RemoveUserStory removeUserStory;
-    private final StartVote startVote;
+    private final EnableVotesToUserStory enableVotesToUserStory;
+    private final VoteForUserStory voteForUserStory;
 
 
     public UserStoryController(final ConversionService conversionService,
                                final AddUserStory addUserStory,
                                final RemoveUserStory removeUserStory,
-                               final StartVote startVote) {
+                               final EnableVotesToUserStory enableVotesToUserStory,
+                               final VoteForUserStory voteForUserStory) {
         this.conversionService = conversionService;
         this.addUserStory = addUserStory;
         this.removeUserStory = removeUserStory;
-        this.startVote = startVote;
+        this.enableVotesToUserStory = enableVotesToUserStory;
+        this.voteForUserStory = voteForUserStory;
     }
 
     @PostMapping
@@ -54,7 +56,17 @@ public class UserStoryController {
     @PutMapping("/start/{planningSessionId}")
     public ResponseEntity<HttpStatus> enableToVote(@PathVariable final UUID planningSessionId){
 
-        startVote.execute(planningSessionId);
+        enableVotesToUserStory.execute(planningSessionId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //TODO ExceptionAdvice
+    @PutMapping("/vote/{planningSessionId}")
+    public ResponseEntity<HttpStatus> vote(@PathVariable final UUID planningSessionId,
+                                           @RequestBody final MemberUserStoryRequest memberUserStoryRequest ) throws UserStoryVoteException {
+
+        voteForUserStory.execute(memberUserStoryRequest.getMemberId(), memberUserStoryRequest.getUserStoryId(), planningSessionId, memberUserStoryRequest.getValue());
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

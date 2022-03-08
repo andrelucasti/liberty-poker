@@ -1,6 +1,7 @@
 package com.liberty.poker.planningroom;
 
 import com.liberty.poker.userstory.UserStory;
+import com.liberty.poker.userstory.UserStoryDTO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,13 +15,13 @@ public class PlanningRoomSessionDetailsResponse {
 
     private final String title;
     private final List<MemberRoomDTO> members;
-    private final List<UserStory> userStories;
+    private final List<UserStoryDTO> stories;
 
     public PlanningRoomSessionDetailsResponse(final String title,
-                                       final List<MemberRoomDTO> members,
-                                       final List<UserStory> userStories) {
+                                              final List<MemberRoomDTO> members,
+                                              final List<UserStoryDTO> stories) {
         this.title = title;
         this.members = members;
-        this.userStories = userStories;
+        this.stories = stories;
     }
 }

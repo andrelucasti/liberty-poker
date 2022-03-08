@@ -1,16 +1,15 @@
-package com.liberty.poker.vote;
+package com.liberty.poker.userstory;
 
 import com.google.common.collect.Iterables;
 import com.liberty.poker.AbstractIntegrationTests;
-import com.liberty.poker.userstory.UserStory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class StartVoteIntegrationTest extends AbstractIntegrationTests {
+class EnableVotesToUserStoryIntegrationTest extends AbstractIntegrationTests {
 
     @Autowired
-    private StartVote subject;
+    private EnableVotesToUserStory subject;
 
     @Test
     void shouldUpdateUserStoryStatusWhenEnableVotesFromPendingToVoting() {

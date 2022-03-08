@@ -1,9 +1,6 @@
 package com.liberty.poker.memberuserstory;
 
 import com.liberty.poker.member.Member;
-import com.liberty.poker.memberuserstory.ConnectUserStoryToMember;
-import com.liberty.poker.memberuserstory.MemberUserStory;
-import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.userstory.UserStory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

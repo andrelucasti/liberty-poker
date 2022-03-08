@@ -12,6 +12,6 @@ public class PlanningRoomSessionDetailsDTOToPlaningRoomSessionDetailRequestConve
 
     @Override
     public PlanningRoomSessionDetailsResponse convert(final PlanningRoomSessionDetailsDTO source) {
-        return new PlanningRoomSessionDetailsResponse(source.getTitle(), source.getMemberRoomDTOS(), source.getUserStoryList());
+        return new PlanningRoomSessionDetailsResponse(source.getTitle(), source.getMemberRoomDTOS(), source.getUserStoriesDTOS());
     }
 }

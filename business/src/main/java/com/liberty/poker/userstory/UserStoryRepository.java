@@ -3,6 +3,7 @@ package com.liberty.poker.userstory;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserStoryRepository {
@@ -17,4 +18,8 @@ public interface UserStoryRepository {
     void deleteAll();
 
     void update(UserStory userStory);
+
+
+    Optional<UserStory> findById(UUID id);
+    UserStory findMandatoryById(UUID id);
 }
