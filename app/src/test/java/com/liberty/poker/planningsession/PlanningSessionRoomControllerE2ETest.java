@@ -85,7 +85,7 @@ class PlanningSessionRoomControllerE2ETest extends AbstractE2ETest {
                 .get("/room/".concat(planningSession.getId().toString()))
                 .then()
                 .status(HttpStatus.OK)
-                .body("userStories.description", Matchers.containsInAnyOrder("story1", "story2"));
+                .body("stories.description", Matchers.containsInAnyOrder("story1", "story2"));
 
     }
 

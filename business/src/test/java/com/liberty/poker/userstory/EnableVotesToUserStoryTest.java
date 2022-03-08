@@ -118,7 +118,7 @@ class EnableVotesToUserStoryTest {
                 thenReturn(List.of(member1, member2));
 
         subject.execute(planningSessionId);
-        verify(connectUserStoryToMember, times(2)).execute(memberIdArgumentCaptor.capture(), eq(List.of(userStoryPending1, userStoryPending2)), eq(planningSessionId));
+        verify(connectUserStoryToMember, times(2)).execute(memberIdArgumentCaptor.capture(), eq(List.of(userStoryPending1, userStoryPending2, userStory1)), eq(planningSessionId));
 
         Assertions.assertThat(memberIdArgumentCaptor.getAllValues()).hasSize(2);
         Assertions.assertThat(memberIdArgumentCaptor.getAllValues()).contains(member1.getId(), member2.getId());
