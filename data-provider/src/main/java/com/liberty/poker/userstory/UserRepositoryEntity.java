@@ -15,6 +15,6 @@ public interface UserRepositoryEntity extends JpaRepository<UserStoryEntity, UUI
     List<UserStoryEntity> findByPlanningSessionId(UUID planningSessionId);
 
     @Modifying
-    @Query(value = "update USER_STORY set STATUS = :status where UUID = :id")
+    @Query(value = "update USER_STORY u set u.version=u.version+1, u.status = :status where u.uuid = :id")
     void updateStatus(@Param("id") UUID id, @Param("status") String status);
 }

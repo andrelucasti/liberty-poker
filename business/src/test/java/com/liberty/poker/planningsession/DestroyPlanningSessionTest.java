@@ -2,6 +2,7 @@ package com.liberty.poker.planningsession;
 
 import com.liberty.poker.linksession.DestroyLinkSessionFromPlanningSession;
 import com.liberty.poker.member.RemoveMembersFromPlanningSession;
+import com.liberty.poker.memberuserstory.MemberUserStoryRepository;
 import com.liberty.poker.userstory.RemoveUserStoryFromPlanningSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,12 @@ class DestroyPlanningSessionTest {
     @Mock
     private RemoveUserStoryFromPlanningSession removeUserStoryFromPlanningSession;
 
+    @Mock
+    private MemberUserStoryRepository memberUserStoryRepository;
+
     @BeforeEach
     void setUp() {
-        subject = new DestroyPlanningSession(removeUserStoryFromPlanningSession, removeMembersFromPlanningSession, destroyLinkSessionFromPlanningSession, planningSessionRepository);
+        subject = new DestroyPlanningSession(memberUserStoryRepository, removeUserStoryFromPlanningSession, removeMembersFromPlanningSession, destroyLinkSessionFromPlanningSession, planningSessionRepository);
     }
 
     @Test
@@ -72,6 +76,16 @@ class DestroyPlanningSessionTest {
         subject.execute(planningSessionId);
 
         verify(removeUserStoryFromPlanningSession).execute(eq(planningSessionId));
+        verify(planningSessionRepository).deleteById(eq(planningSessionId));
+    }
+
+    @Test
+    void shouldRemoveTheMemberUserStoryFromPlanningSessionWhenDestroyPlanningSession() {
+        final var planningSessionId = UUID.randomUUID();
+
+        subject.execute(planningSessionId);
+
+        verify(memberUserStoryRepository).deleteBy(eq(planningSessionId));
         verify(planningSessionRepository).deleteById(eq(planningSessionId));
     }
 }

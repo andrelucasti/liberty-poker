@@ -57,6 +57,11 @@ public class MemberUserStoryRepositoryImpl implements MemberUserStoryRepository{
     }
 
     @Override
+    public void deleteBy(final UUID planningSessionId) {
+        memberUserStoryRepositoryEntity.deleteByPlanningSessionId(planningSessionId);
+    }
+
+    @Override
     public void updateVoteFrom(final MemberUserStory memberUserStory) {
         memberUserStoryRepositoryEntity.updateMemberUserStoryBy(memberUserStory.getMemberId(), memberUserStory.getUserStoryId(),
                 memberUserStory.getPlanningSessionId(), memberUserStory.getVoteValue());

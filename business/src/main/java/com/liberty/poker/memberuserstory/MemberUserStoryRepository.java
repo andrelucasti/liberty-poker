@@ -18,4 +18,6 @@ public interface MemberUserStoryRepository {
 
     @VisibleForTesting
     void deleteAll();
+
+    void deleteBy(UUID planningSessionId);
 }

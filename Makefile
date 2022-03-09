@@ -7,6 +7,23 @@ help: ## Show this help
 infra-local-start: ## Run infrastructure locally
 	docker-compose -f infrastructure/docker-compose.yml up -d --build
 
+infra-local-stop: ## Stop infrastructure locally
+	docker-compose -f localstack/docker-compose.yml down
+
+infra-local-db-cleanup: ## Clean the database locally
+	docker stop postgres-planningpoker \
+    & docker rm postgres-planningpoker \
+    & docker volume rm postgres_postgres-planningpoker
+
 run-test: ## run all test, unit | integration | e2e
 	mvn clean test
 
+run-build:
+	mvn clean install
+
+run-app-with-h2: ## run the app with h2 (data-base-in-memory)
+	mvn clean install && mvn -f app/pom.xml spring-boot:run -Dspring-boot.run.profiles=h2
+
+run-app-with-postgres: ## run the app with postgres database
+	docker-compose -f infrastructure/docker-compose.yml up -d --build && \
+	mvn clean install && mvn -f app/pom.xml spring-boot:run -Dspring-boot.run.profiles=postgres
