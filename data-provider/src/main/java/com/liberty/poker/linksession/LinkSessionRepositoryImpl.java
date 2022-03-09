@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,5 +45,10 @@ public class LinkSessionRepositoryImpl implements LinkSessionRepository {
     @Override
     public void deleteAll() {
         linkSessionEntityRepository.deleteAll();
+    }
+
+    @Override
+    public Optional<LinkSession> findByPlanningSession(final UUID planningSessionId) {
+        return linkSessionEntityRepository.findByPlanningSessionId(planningSessionId).map(entityToModel::converter);
     }
 }

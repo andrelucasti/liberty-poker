@@ -1,6 +1,8 @@
-package com.liberty.poker.planningsession;
+package com.liberty.poker.planningsession.converter;
 
 import com.liberty.poker.AbstractConverter;
+import com.liberty.poker.planningsession.PlanningSession;
+import com.liberty.poker.planningsession.PlanningSessionRequest;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.stereotype.Component;
 

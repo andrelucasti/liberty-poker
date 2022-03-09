@@ -1,5 +1,6 @@
 package com.liberty.poker.member;
 
+import com.liberty.poker.ObjectDomainNotFoundException;
 import com.liberty.poker.planningroom.PlanningRoomSessionDTO;
 import com.liberty.poker.planningsession.PlanningSessionNotFoundException;
 import com.liberty.poker.planningsession.PlanningSessionRepository;
@@ -30,9 +31,9 @@ public class InviteMemberToPlanningSession {
     }
 
     public PlanningRoomSessionDTO execute(final Member member) throws PlanningSessionNotFoundException {
+        final var planningSession = planningSessionRepository.findMandatoryById(member.getPlanningSessionId());
+
         createMember.execute(member);
-        final var planningSession = planningSessionRepository.findById(member.getPlanningSessionId())
-                .orElseThrow(()-> new PlanningSessionNotFoundException(String.format("PlanningSession %s not found", member.getPlanningSessionId())));
         final var members = memberRepository.findByPlanningSessionId(planningSession.getId());
         final var userStories = userStoryRepository.findByPlanningSessionId(planningSession.getId());
 

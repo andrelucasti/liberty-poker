@@ -1,6 +1,7 @@
 package com.liberty.poker.userstory;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.liberty.poker.ObjectDomainNotFoundException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +77,6 @@ public class UserStoryImpl implements UserStoryRepository{
 
     @Override
     public UserStory findMandatoryById(final UUID id) {
-        return this.findById(id).orElseThrow(() -> new RuntimeException(String.format("User Story not found, %s", id)));
+        return this.findById(id).orElseThrow(() -> new ObjectDomainNotFoundException(String.format("User Story not found, %s", id)));
     }
 }

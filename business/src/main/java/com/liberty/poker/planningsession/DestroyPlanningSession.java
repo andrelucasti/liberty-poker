@@ -28,6 +28,7 @@ public class DestroyPlanningSession {
 
     @Transactional
     public void execute(final UUID planningSessionId) {
+
         removeUserStoryFromPlanningSession.execute(planningSessionId);
         removeMembersFromPlanningSession.execute(planningSessionId);
         destroyLinkSessionFromPlanningSession.execute(planningSessionId);

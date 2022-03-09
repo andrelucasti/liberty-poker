@@ -44,8 +44,8 @@ class InviteMemberToPlanningSessionTest {
         final var member = new Member("Andre Lucas", planningSessionId);
         final var titlePlanningPokerSessionExpected = "Liberty P Session";
 
-        when(planningSessionRepository.findById(eq(planningSessionId)))
-                .thenReturn(Optional.of(new PlanningSession(planningSessionId, titlePlanningPokerSessionExpected, DeckType.FIBONACCI)));
+        when(planningSessionRepository.findMandatoryById(eq(planningSessionId)))
+                .thenReturn(new PlanningSession(planningSessionId, titlePlanningPokerSessionExpected, DeckType.FIBONACCI));
 
         final var actualTitlePlanningPokerSession = subject.execute(member);
 
@@ -59,8 +59,8 @@ class InviteMemberToPlanningSessionTest {
         final var member2 = new Member("Alexandre Lima", planningSessionId);
         final var member3 = new Member("Vijay", planningSessionId);
 
-        when(planningSessionRepository.findById(eq(planningSessionId)))
-                .thenReturn(Optional.of(new PlanningSession(planningSessionId, "Liberty P Session", DeckType.FIBONACCI)));
+        when(planningSessionRepository.findMandatoryById(eq(planningSessionId)))
+                .thenReturn(new PlanningSession(planningSessionId, "Liberty P Session", DeckType.FIBONACCI));
 
         when(memberRepository.findByPlanningSessionId(eq(planningSessionId)))
                 .thenReturn(List.of(newMember, member2, member3));
@@ -78,8 +78,8 @@ class InviteMemberToPlanningSessionTest {
 
         final var anyStory = new UserStory(UUID.randomUUID(), "anyStory", PENDING, planningSessionId);
 
-        when(planningSessionRepository.findById(eq(planningSessionId)))
-                .thenReturn(Optional.of(new PlanningSession(planningSessionId, "Liberty P Session", DeckType.FIBONACCI)));
+        when(planningSessionRepository.findMandatoryById(eq(planningSessionId)))
+                .thenReturn(new PlanningSession(planningSessionId, "Liberty P Session", DeckType.FIBONACCI));
 
         when(userStoryRepository.findByPlanningSessionId(eq(planningSessionId)))
                 .thenReturn(List.of(anyStory));

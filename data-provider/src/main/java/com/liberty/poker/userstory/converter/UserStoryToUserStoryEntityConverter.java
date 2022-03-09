@@ -1,6 +1,8 @@
-package com.liberty.poker.userstory;
+package com.liberty.poker.userstory.converter;
 
 import com.liberty.poker.AbstractConverter;
+import com.liberty.poker.userstory.UserStory;
+import com.liberty.poker.userstory.UserStoryEntity;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.stereotype.Component;
 

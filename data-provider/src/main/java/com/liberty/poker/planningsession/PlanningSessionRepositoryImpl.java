@@ -1,5 +1,7 @@
 package com.liberty.poker.planningsession;
 
+import com.liberty.poker.ObjectDomainNotFoundException;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,41 +12,39 @@ import java.util.stream.Collectors;
 @Repository
 public class PlanningSessionRepositoryImpl implements PlanningSessionRepository {
 
+    private final ConversionService conversionService;
     private final PlanningSessionEntityRepository planningSessionEntityRepository;
-    private final PlanningSessionToPlanningSessionEntityConverter modelToEntity;
-    private final PlanningSessionEntityToPlanningSessionConverter entityToModel;
 
-    public PlanningSessionRepositoryImpl(final PlanningSessionEntityRepository planningSessionEntityRepository,
-                                         final PlanningSessionToPlanningSessionEntityConverter modelToEntity,
-                                         final PlanningSessionEntityToPlanningSessionConverter entityToModel) {
+    public PlanningSessionRepositoryImpl(final ConversionService conversionService,
+                                         final PlanningSessionEntityRepository planningSessionEntityRepository) {
+        this.conversionService = conversionService;
         this.planningSessionEntityRepository = planningSessionEntityRepository;
-        this.modelToEntity = modelToEntity;
-        this.entityToModel = entityToModel;
+
     }
 
     @Override
     public PlanningSession save(final PlanningSession planningSession) {
-        final var planningSessionEntity = modelToEntity.converter(planningSession);
-        return entityToModel.converter(planningSessionEntityRepository.save(planningSessionEntity));
+        final var planningSessionEntity = conversionService.convert(planningSession, PlanningSessionEntity.class);
+        return conversionService.convert(planningSessionEntityRepository.save(planningSessionEntity), PlanningSession.class);
     }
 
     @Override
     public Optional<PlanningSession> findById(final UUID id) {
-        return planningSessionEntityRepository.findById(id).map(entityToModel::converter);
+        return planningSessionEntityRepository.findById(id)
+                .map(planningSessionEntity -> conversionService.convert(planningSessionEntity, PlanningSession.class));
     }
 
     @Override
     public PlanningSession findMandatoryById(final UUID id) {
-
-        return planningSessionEntityRepository.findById(id).map(entityToModel::converter)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Planning Session %s Not Found", id)));
+        return this.findById(id)
+                .orElseThrow(() -> new ObjectDomainNotFoundException(String.format("Planning Session %s Not Found", id)));
     }
 
     @Override
     public List<PlanningSession> findAll() {
         return planningSessionEntityRepository.findAll()
                 .stream()
-                .map(entityToModel::converter)
+                .map(planningSessionEntity -> conversionService.convert(planningSessionEntity, PlanningSession.class))
                 .collect(Collectors.toList());
     }
 

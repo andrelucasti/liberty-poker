@@ -12,6 +12,6 @@ public class MemberRequestWrapperToMemberConverter extends AbstractConverter<Mem
 
     @Override
     public Member convert(MemberRequest.MemberRequestWrapper source) {
-        return new Member(source.getMemberRequest().getNickName(), source.getPlanningPokerSessionId());
+        return new Member(source.getMemberRequest().getNickName(), source.getPlanningSessionId());
     }
 }

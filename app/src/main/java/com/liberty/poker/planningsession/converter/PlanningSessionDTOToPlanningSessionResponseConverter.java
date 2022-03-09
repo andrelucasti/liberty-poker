@@ -1,22 +1,22 @@
-package com.liberty.poker.planningroom;
+package com.liberty.poker.planningsession.converter;
 
 import com.liberty.poker.AbstractConverter;
-import com.liberty.poker.planningsession.PlanningPokerSessionDTO;
+import com.liberty.poker.planningsession.PlanningSessionDTO;
 import com.liberty.poker.planningsession.PlanningSessionResponse;
 import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlanningSessionDTOToPlanningSessionResponseConverter extends AbstractConverter<PlanningPokerSessionDTO, PlanningSessionResponse> {
+public class PlanningSessionDTOToPlanningSessionResponseConverter extends AbstractConverter<PlanningSessionDTO, PlanningSessionResponse> {
 
     protected PlanningSessionDTOToPlanningSessionResponseConverter(ConfigurableConversionService conversionService) {
         super(conversionService);
     }
 
     @Deprecated
-    public PlanningSessionResponse converter(final PlanningPokerSessionDTO planningPokerSessionDTO){
-        final var newPlanningSession = planningPokerSessionDTO.getNewPlanningSession();
-        final var newLinkSession = planningPokerSessionDTO.getNewLinkSession();
+    public PlanningSessionResponse converter(final PlanningSessionDTO planningSessionDTO){
+        final var newPlanningSession = planningSessionDTO.getNewPlanningSession();
+        final var newLinkSession = planningSessionDTO.getNewLinkSession();
 
         return new PlanningSessionResponse(newPlanningSession.getId(),
                 newPlanningSession.getTitle(),
@@ -25,7 +25,7 @@ public class PlanningSessionDTOToPlanningSessionResponseConverter extends Abstra
     }
 
     @Override
-    public PlanningSessionResponse convert(PlanningPokerSessionDTO source) {
+    public PlanningSessionResponse convert(final PlanningSessionDTO source) {
         final var newPlanningSession = source.getNewPlanningSession();
         final var newLinkSession = source.getNewLinkSession();
 

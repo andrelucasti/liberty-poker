@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Getter
 public class MemberRequest {
-
     private final String nickName;
 
     @JsonCreator
@@ -19,13 +18,12 @@ public class MemberRequest {
 
     @Getter
     public static class MemberRequestWrapper {
-
         private final MemberRequest memberRequest;
-        private final UUID planningPokerSessionId;
+        private final UUID planningSessionId;
 
-        public MemberRequestWrapper(final MemberRequest memberRequest, final UUID planningPokerSessionId) {
+        public MemberRequestWrapper(final MemberRequest memberRequest, final UUID planningSessionId) {
             this.memberRequest = memberRequest;
-            this.planningPokerSessionId = planningPokerSessionId;
+            this.planningSessionId = planningSessionId;
         }
     }
 }
