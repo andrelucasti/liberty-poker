@@ -1,0 +1,16 @@
+version: '3'
+services:
+  postgres-liberty:
+    container_name: postgres-planningpoker
+    image: postgres:13.2
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=planningpoker
+      - POSTGRES_PASSWORD=planningpoker
+      - POSTGRES_DB=planningpoker
+    volumes:
+      - postgres_planningpoker:/var/lib/postgresql/data
+
+volumes:
+  postgres_planningpoker:
