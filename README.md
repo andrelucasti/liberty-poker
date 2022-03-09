@@ -9,7 +9,14 @@ This project cover all the detected user cases, also  should create a quick impl
 
 OBS: The default database is H2, a database in memory. About more [h2](https://www.baeldung.com/spring-boot-h2-database)
 
-#### Service architecture
+## Domains
+
+![img.png](database.png)
+
+
+
+
+###Service architecture
 
 ## Onion Architecture
 
