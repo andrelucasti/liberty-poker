@@ -47,11 +47,11 @@ http://localhost:9958/swagger-ui/index.html#/
 
 ## Running the project
 
-###Run the project with h2 database
+### Run the project with h2 database
 
 `make run-app-with-h2`
 
-###Run the project with postgres database
+### Run the project with postgres database
 
 `make run-app-with-postgres`
 
