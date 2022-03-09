@@ -22,7 +22,7 @@ so, we can see different directories here., let me explain:
 - **business**: There is all the business logic;
 - **data-provider**: Stores database migrations, and the entities used in the whole service as well;
 
-###How the modules do communicate
+### How the modules do communicate
 
 ![img.png](flow-onion-arch.png)
 
